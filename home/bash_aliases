@@ -1,0 +1,6 @@
+
+# copy to 'clipboard'
+alias cb="xclip -selection clipboard"
+# list direcotires
+alias ldir="ls .*/ */ -d"
+

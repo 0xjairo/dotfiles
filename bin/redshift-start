@@ -1,0 +1,2 @@
+#! /bin/bash
+gtk-redshift -l 29.5:-95.1 & -t5500:5000 -v

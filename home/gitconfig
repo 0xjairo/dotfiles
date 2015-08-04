@@ -1,0 +1,31 @@
+﻿[push]
+	default = upstream
+[diff]
+	tool = meld
+[merge]
+	tool = mymeld
+    conflictstyle = diff3
+[mergetool "mymeld"]
+    cmd = meld --output $MERGED $LOCAL $BASE $REMOTE
+[core]
+	autocrlf = input
+	pager = less -F -X
+[alias]
+	lg = log --graph --format=format:'%C(yellow)%h%C(reset) - %C(green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold yellow)%d%C(reset)' 
+
+    st = status -sb
+
+    # doesn't allow pushing
+    serve = !git daemon --reuseaddr --verbose --base-path=. --export-all
+    # allow pushing
+    serve-push = !git daemon --reuseaddr --verbose --base-path=. --export-all --enable=receive-pack
+
+    permission-reset = !git diff -p -R | grep -E \"^(diff|(old|new) mode)\" | git apply
+[color]
+	ui = true
+[gui]
+	historybrowser = gitk
+	fontui = -family Ubuntu -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+	fontdiff = -family \"Ubuntu Mono\" -size 11 -weight normal -slant roman -underline 0 -overstrike 0
+[cola]
+	tabwidth = 4

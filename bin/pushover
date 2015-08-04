@@ -1,0 +1,56 @@
+#!/bin/bash
+usage="Usage: pushover.sh -m MSG [-t TITLE] [-q]\n
+\n
+    -m MSG      Set notification message to MSG\n
+    -t TITLE    Set notification title to TITLE\n
+    -q          Run quietly\n
+"
+
+if [ -z "${PUSHOVER_USER_KEY}" -o -z "${PUSHOVER_APP_TOKEN}" ]; then
+    echo "Error: Please set the environment variables PUSHOVER_USER_KEY and PUSHOVER_APP_TOKEN">&2
+    exit 1
+fi
+
+while getopts "m:t:p:q" opt; do
+    case "$opt" in
+        m) msg=$OPTARG;;
+        t) title=$OPTARG;;
+        p) priority=$OPTARG;;
+        q) quiet=true;;
+    esac
+done
+
+
+# set default value, if not already set
+: ${title:="${HOSTNAME}"}
+: ${priority:=0}
+
+# Verify that there's a message
+if [ -z "$msg" ]; then
+    echo "Error: Please provide message. Will not send empty message">&2
+    echo ""
+    echo -e $usage
+    exit 1;
+fi
+
+# Output to screen
+if [ ! $quiet ]; then
+    echo "Sending push notification..."
+    echo "Title: ${title}"
+    echo "Message: ${msg}";
+    echo "Priority: ${priority}";
+fi
+
+cmd=$(curl -s \
+  -F "token=${PUSHOVER_APP_TOKEN}" \
+  -F "user=${PUSHOVER_USER_KEY}" \
+  -F "title=${title}" \
+  -F "message=${msg}" \
+  -F "priority=${priority}" \
+  https://api.pushover.net/1/messages.json 2>&1)
+
+if [ $? -ne 0 ]; then
+    echo $cmd
+    echo "Error pushing notification">&2;
+    exit 1
+fi

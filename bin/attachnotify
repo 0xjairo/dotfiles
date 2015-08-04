@@ -1,0 +1,69 @@
+#!/usr/bin/python -u
+'''
+Use strace to attach to a running process, specifed by PID.
+When process completes, send the exit code to the user with
+pushover
+'''
+
+from argparse import ArgumentParser
+from subprocess import Popen, PIPE
+try:
+    import psutil
+except ImportError:
+    raise SystemExit(('Please install psutil '
+                      'i.e., pip install psutil'))
+
+
+def call(cmd):
+    p = Popen(cmd,
+              shell=False,
+              bufsize=False,
+              stdin=PIPE,
+              stdout=PIPE,
+              stderr=PIPE)
+
+    return p.communicate()
+
+
+def main():
+
+    parser = ArgumentParser(description=__doc__)
+
+    parser.add_argument(
+        'pid', type=int,
+        help='PID of program to attach to'
+        )
+
+    args, unknown = parser.parse_known_args()
+
+    # grab name of process
+    p = psutil.Process(args.pid)
+    pcmdline = ' '.join(p.cmdline())
+    pcwd = p.cwd()
+    pname = p.name()
+
+    print 'Attaching strace to pid {}({})'.format(args.pid, pname)
+    print 'cmd: {}'.format(pcmdline)
+    stdout, stderr = call('sudo strace -e none -e exit_group -p {}'.format(args.pid).split())
+    for line in stderr.split('\n'):
+        if line.startswith('+++'):
+            exitmsg = line
+
+            title = '{}'.format(pname)
+            msg = ['strace:{}'.format(exitmsg),
+                   'cmd:{}'.format(pcmdline),
+                   'cwd:{}'.format(pcwd)
+                   ]
+
+            print '\n'.join(msg)
+            stdout, stderr = call(
+                    ['pushover',
+                     '-t{}'.format(title), 
+                     '-m{}'.format('\n'.join(msg)),
+                     '-q'])
+            print stdout
+            break
+
+
+if __name__ == '__main__':
+    main()

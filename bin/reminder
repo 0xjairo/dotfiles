@@ -1,0 +1,70 @@
+#! /bin/bash
+
+function usage {
+	echo "Usage: $0 [[-n][-s] -m\"message\" -t time] [-h]"
+    echo " "
+	echo "-n            Use notify-send as the reminder"
+	echo "-s            Use twilio-sms as the reminder"
+	echo "-h            Print this help"
+    echo "-m            Used to indicate message"
+    echo "-t            Used to indicate time. 'time' must be formatted"
+    echo "              as hh:mm or any other format accepted by 'at'."
+}
+
+while getopts "nsm:t:h" option
+do
+    case "${option}" 
+    in
+        n) 
+            doNotify=1
+            ;;
+        s)
+            doSms=1
+            ;;
+        m)
+            msg="$OPTARG"
+            ;;
+        t) 
+            t="$OPTARG"
+            ;;
+        h)
+            usage
+            exit
+            ;;
+    esac
+done
+
+# if attempting to send SMS, check to see if $REMINDER_SMS_PHONE is set
+if [ ! -z "$doSms" -a -z "$REMINDER_SMS_PHONE" ] ; then
+    echo "Error.  Please set the environment variable REMINDER_SMS_PHONE"
+    echo "to the phone number you wish to receive reminders"
+    exit 1
+fi
+
+
+# if msg and t aren't zero length strings
+if [ ! -z "$msg" -a ! -z "$t"  ] ; then
+
+    # if doNotify is set
+    if [ ! -z "$doNotify" ] ; then
+        echo "Reminder scheduled at $t via notify-send"
+        echo "notify-send \"Reminder\" \"$msg\"" | at $t 1>&2 2>/dev/null
+    fi
+
+    # if doSMS is set
+    if [ ! -z "$doSms" ] ; then
+        echo "Reminder scheduled at $t via twilio-sms"
+        echo "echo \"Reminder - $msg\" | twilio-sms $REMINDER_SMS_PHONE" | at $t 1>&2 2>/dev/null
+    fi
+else
+    # print usage and exit
+    usage
+    exit 1
+fi
+
+# if neither doNotify or doSMS is set, print usage
+if [ -z "$doNotify" -a -z "$doSms" ] ; then
+    usage
+    exit 1
+fi
+

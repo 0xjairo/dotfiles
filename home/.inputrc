@@ -1,0 +1,10 @@
+$if mode=vi
+     set keymap vi-command
+     k: history-search-backward
+     j: history-search-forward
+     set keymap vi-insert
+     "\e[A": history-search-backward
+     "\e[B": history-search-forward
+$endif
+set show-all-if-ambiguous off
+set completion-ignore-case on

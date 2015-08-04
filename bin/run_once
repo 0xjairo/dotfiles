@@ -1,0 +1,3 @@
+#!/bin/bash
+# Don't run program if already running
+pgrep $@ > /dev/null || ($@ &)

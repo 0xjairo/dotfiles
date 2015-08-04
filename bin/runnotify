@@ -1,0 +1,35 @@
+#!/bin/bash
+HELPSTR="Run a command and send pushover notification when command completes"
+
+if [ -z "$*" ]; then
+    echo $HELPSTR
+    echo ""
+    echo "Error, no command to run"
+    exit 1
+fi
+
+# save command
+cmd="$@"
+
+tmpfile=$(mktemp /tmp/runnotify.XXX)
+# execute
+"$@" 2>&1 | tee ${tmpfile}
+
+# grab exit status
+ret=${PIPESTATUS[0]}
+
+# grab last 512 characters of temp file
+msg=$(tail -c 512 ${tmpfile})
+
+
+# check return status
+if [ $ret -ne 0 ]; then
+    title="Failed: $cmd"
+else
+    title="Success: $cmd"
+fi
+
+# send pushover notification
+echo "---"
+echo "Sending push notification..."
+pushover -t "${title}" -m "${msg}" -q

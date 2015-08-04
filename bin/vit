@@ -1,0 +1,3 @@
+#!/bin/bash
+# open a new tab on gvim
+gvim --servername `hostname` --remote-tab-silent "$1"

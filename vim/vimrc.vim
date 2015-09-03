@@ -308,14 +308,12 @@ else
     else
 
 
-        colorscheme atom-dark-256
-
         "" option 2.
         " set background=dark
         " colorscheme solarized
 
         "let g:rehash256=1
-        "colorscheme molokai
+        colorscheme molokai
 
         "colorscheme jellybeans
         "colorscheme railscasts

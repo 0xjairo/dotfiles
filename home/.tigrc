@@ -3,7 +3,11 @@ set show-changes = yes
 set commit-order = topo
 set refresh-mode = auto
 set main-view = \
-  date:default \
+  date:relative \
   author:abbreviated \
   id:yes,color \
   commit-title:graph=yes,refs=yes
+set line-graphics = utf-8
+
+# colors
+color cursor    default default reverse

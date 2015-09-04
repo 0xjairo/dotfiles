@@ -59,3 +59,10 @@ if [ -e $HOME/dotfiles/home/qc/qc/qc.sh ]; then
 fi
 
 alias ipymath=ipython --profile=math
+
+export XDG_CONFIG_HOME=$HOME/.config
+
+alias dispssh="export DISPLAY=localhost:10.0"
+alias displocal="export DISPLAY=:0.0"
+
+export EDITOR="vim"

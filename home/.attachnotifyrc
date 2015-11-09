@@ -10,4 +10,4 @@ notifiers :
       exec: ~/prj/github/blink1/commandline/blink1-tool
       onerror: '--red'
       onsuccess: '--green'
-      args: '--blink=1'
+      args: '--blink=5'

@@ -174,6 +174,14 @@ nnoremap <silent> <Leader>p :call fzf#run({
 \   'down':    len(<sid>buflist()) + 2
 \ })<CR>
 
+" recent files
+command! FZFMru call fzf#run({
+\  'source':  v:oldfiles,
+\  'sink':    'e',
+\  'options': '-m -x +s',
+\  'down':    '40%'})
+
+
 
 " Filter Ag results within vim
 " Ctrl-X, Ctrl-V, Ctrl-T to open in a new split, vertical split, tab

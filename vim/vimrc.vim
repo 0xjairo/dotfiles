@@ -26,6 +26,7 @@ set nowrap " dont wrap lines by defaul
 set wildignore+=*.so,*.swp,*.pyc,*.ngc,*.o,*.obj
 set wildmode=longest,list,full " tab-completion for open files a-la bash
 set switchbuf-=newtab "dont' open new tab when reviewing quickfix window
+set cursorline " highlight current line
 
 " tab defaults
 """""""""""""""

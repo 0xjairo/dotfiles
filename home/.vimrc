@@ -13,6 +13,8 @@ Plug 'junegunn/fzf', {'dir':'~/.fzf', 'do':'yes \| ./install' }
 
 "EditorConfig Vim Plugin
 Plug 'editorconfig/editorconfig-vim'
+" exclude changing these files
+let g:EditorConfig_exclude_patterns = ['*.vhd']
 
 " tpope plugins
 Plug 'tpope/vim-fugitive'

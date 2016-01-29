@@ -102,8 +102,9 @@ if !has('nvim')
 endif
 " set undofile        " Creates .un~ file to keep undo history even after close
 set undolevels=1000
-if !has('nvim')
-    set clipboard+=unnamedplus " neovim clipboard. Requires python-neovim and xclip or xset in Linux
+if has('nvim')
+    set clipboard^=unnamedplus " neovim clipboard. Requires python-neovim and xclip or xset in Linux
+else
     set clipboard^=unnamed  "Use system clipboard by default
                             "The caret puts unnamed first in the list,
                             "as oppose to +=, which appends to the end.

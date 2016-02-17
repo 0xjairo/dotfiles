@@ -1,4 +1,5 @@
 set nocompatible    " vim
+set shell=bash
 call plug#begin('~/.vim/plugged')
 
 " To use powerline as installed with pip

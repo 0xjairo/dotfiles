@@ -151,35 +151,9 @@ nmap k gk
 
 " toggle buffers
 noremap <C-g> :b#<CR>
-"
-" Fuzzy finder
-nmap <C-p> :FZF<CR>
-" From https://github.com/junegunn/fzf/wiki/Examples-(vim)
-function! s:buflist()
-  redir => ls
-  silent ls
-  redir END
-  return split(ls, '\n')
-endfunction
-
-function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
 
 " list of open buffers
-nnoremap <silent> <Leader>p :call fzf#run({
-\   'source':  reverse(<sid>buflist()),
-\   'sink':    function('<sid>bufopen'),
-\   'options': '+m',
-\   'down':    len(<sid>buflist()) + 2
-\ })<CR>
-
-" recent files
-command! FZFMru call fzf#run({
-\  'source':  v:oldfiles,
-\  'sink':    'e',
-\  'options': '-m -x +s',
-\  'down':    '40%'})
+nnoremap <silent> <Leader>p :CtrlPBuffer<CR>
 
 
 

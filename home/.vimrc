@@ -1,10 +1,5 @@
-set nocompatible    " vim
 set shell=bash
 call plug#begin('~/.vim/plugged')
-
-" To use powerline as installed with pip
-"   pip install --user git+git://github.com/Lokaltog/powerline
-"set rtp+=~/.local/lib/python2.7/site-packages/powerline/bindings/vim/
 
 " github repos
 """"""""""""""
@@ -39,6 +34,7 @@ let g:airline#extensions#whitespace#show_message = 0
 Plug 'altercation/vim-colors-solarized'
 Plug 'gosukiwi/vim-atom-dark'
 Plug 'tomasr/molokai'
+Plug 'morhetz/gruvbox'
 
 "syntax additions
 """"""""""""""""""

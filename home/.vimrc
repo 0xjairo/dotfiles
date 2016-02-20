@@ -9,7 +9,9 @@ call plug#begin('~/.vim/plugged')
 """"""""""""""
 " Neomake
 Plug 'benekastah/neomake'
-Plug 'junegunn/fzf', {'dir':'~/.fzf', 'do':'yes \| ./install' }
+
+" ctrlp
+Plug 'kien/ctrlp.vim'
 
 "EditorConfig Vim Plugin
 Plug 'editorconfig/editorconfig-vim'

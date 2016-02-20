@@ -26,6 +26,7 @@ set nowrap " dont wrap lines by defaul
 set wildignore+=*.so,*.swp,*.pyc,*.ngc,*.o,*.obj
 set wildmode=longest,list,full " tab-completion for open files a-la bash
 set switchbuf-=newtab "dont' open new tab when reviewing quickfix window
+set cursorline " highlight current line
 
 " tab defaults
 """""""""""""""
@@ -102,8 +103,9 @@ if !has('nvim')
 endif
 " set undofile        " Creates .un~ file to keep undo history even after close
 set undolevels=1000
-if !has('nvim')
-    set clipboard+=unnamedplus " neovim clipboard. Requires python-neovim and xclip or xset in Linux
+if has('nvim')
+    set clipboard^=unnamedplus " neovim clipboard. Requires python-neovim and xclip or xset in Linux
+else
     set clipboard^=unnamed  "Use system clipboard by default
                             "The caret puts unnamed first in the list,
                             "as oppose to +=, which appends to the end.
@@ -171,6 +173,14 @@ nnoremap <silent> <Leader>p :call fzf#run({
 \   'options': '+m',
 \   'down':    len(<sid>buflist()) + 2
 \ })<CR>
+
+" recent files
+command! FZFMru call fzf#run({
+\  'source':  v:oldfiles,
+\  'sink':    'e',
+\  'options': '-m -x +s',
+\  'down':    '40%'})
+
 
 
 " Filter Ag results within vim

@@ -13,6 +13,8 @@ Plug 'junegunn/fzf', {'dir':'~/.fzf', 'do':'yes \| ./install' }
 
 "EditorConfig Vim Plugin
 Plug 'editorconfig/editorconfig-vim'
+" exclude changing these files
+let g:EditorConfig_exclude_patterns = ['*.vhd']
 
 " tpope plugins
 Plug 'tpope/vim-fugitive'
@@ -22,9 +24,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'majutsushi/tagbar'
 
 Plug 'bling/vim-airline'
-"let g:airline_theme='solarized'
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#buffer_nr_show = 1
 
 " Show changes
 Plug 'mhinz/vim-signify'
@@ -37,19 +36,12 @@ let g:airline#extensions#whitespace#show_message = 0
 Plug 'altercation/vim-colors-solarized'
 Plug 'gosukiwi/vim-atom-dark'
 Plug 'tomasr/molokai'
-"Plug 'gregsexton/Muon', { 'on': []}
-"Plug 'jpo/vim-railscasts-theme', { 'on': []}
-"Plug 'junegunn/seoul256.vim', { 'on': []}
 
 "syntax additions
 """"""""""""""""""
 Plug 'srec.vim'
 Plug 'digitaltoad/vim-jade'
 
-" YouCompleteMe and Syntastic
-Plug 'Valloric/YouCompleteMe',
-    \ { 'for': ['python', 'c', 'cpp'],
-    \'do': './install.sh --clang-completer' }
 Plug 'scrooloose/syntastic'
 
 "Silver Searcher (silver-searcher-ag)

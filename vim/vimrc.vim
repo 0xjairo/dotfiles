@@ -69,12 +69,8 @@ if has("autocmd")
         " treat .VHD as .vhd
         autocmd BufNewFile,BufRead,BufEnter *.VHD setfiletype vhdl
 
-        function SetMarkdownOptions()
-            setfiletype markdown
-            set wrap linebreak spell nolist
-        endfunction
         " treat .md files as markdown
-        autocmd BufNewFile,BufRead,BufEnter *.md call SetMarkdownOptions()
+        autocmd BufNewFile,BufRead,BufEnter *.md setfiletype markdown
         "
         " treat SConstruct files as python
         autocmd BufNewFile,BufRead SConstruct,SConscript setfiletype python
@@ -87,7 +83,7 @@ if has("autocmd")
     autocmd FileType vhdl setlocal ts=4 sts=4 sw=4 expandtab ignorecase
     autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
     autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab
-    autocmd FileType markdown setlocal ts=4 sts=4 sw=4 expandtab
+    autocmd FileType markdown setlocal ts=4 sts=4 sw=4 expandtab wrap linebreak spell nolist
     " for 'flowed' mail messages. see http://wcm1.web.rice.edu/mutt-tips.html
     autocmd FileType mail setlocal fo+=aw
 
@@ -286,23 +282,14 @@ else
     if !has('nvim')
         set term=screen-256color
     endif
+
     " cygwin
     if &term == "win32"
         colorscheme vividchalk
+
     " if unix terminal
     else
-
-
-        "" option 2.
-        " set background=dark
-        " colorscheme solarized
-
-        "let g:rehash256=1
-        colorscheme molokai
-
-        "colorscheme jellybeans
-        "colorscheme railscasts
-
+        colorscheme atom-dark-256
     endif
 
 endif

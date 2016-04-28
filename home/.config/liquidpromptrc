@@ -7,7 +7,7 @@
 # If you want to use different themes and features,
 # you can load the corresponding files here:
 source ~/dotfiles/liquidprompt.theme
-#LP_PS1_FILE=~/.config/liquidprompt/nojhan.ps1
+LP_PS1_FILE=~/dotfiles/liquid.ps1
 
 #############
 # BEHAVIOUR #
@@ -36,12 +36,12 @@ LP_PATH_KEEP=2
 # Do you want to display the hostname, even if not connected through network?
 # Defaults to 0 (do not display hostname when locally connected)
 # set to 1 if you want to always see the hostname
-LP_HOSTNAME_ALWAYS=0
+LP_HOSTNAME_ALWAYS=-1
 
 # Do you want to display the user, even if the user is the same as the one logged in?
 # Defaults to 1 (always display the user)
 # set to 0 if you want to hide the logged user (it will always display different users)
-LP_USER_ALWAYS=1
+LP_USER_ALWAYS=0
 
 # Do you want to display the percentages of load/batteries along with their
 # corresponding marks? Set to 0 to only print the colored marks.
@@ -54,7 +54,7 @@ LP_ENABLE_PERM=1
 
 # Do you want to use the shorten path feature?
 # Recommended value is 1
-LP_ENABLE_SHORTEN_PATH=1
+LP_ENABLE_SHORTEN_PATH=0
 
 # Do you want to use the proxy detection feature?
 # Recommended value is 1
@@ -98,7 +98,7 @@ LP_ENABLE_BZR=1
 
 # Show time of the last prompt display
 # Recommended value is 0
-LP_ENABLE_TIME=1
+LP_ENABLE_TIME=0
 
 # Show runtime of the last command if over LP_RUNTIME_THRESHOLD
 # Recommended value is 0

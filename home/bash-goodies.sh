@@ -14,23 +14,6 @@ if [ -e "$HOME/dotfiles/home/bash-colors.sh" ]; then
     source $HOME/dotfiles/home/bash-colors.sh
 fi
 
-# set prompt colors
-#PS1="\[$txtblk\]\t \[$txtylw\]\u@\h \[$txtblu\]\w"
-
-# Make it look like the default Ubuntu prompt
-PS1='$([ \j -gt 0 ] && echo [\j])${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]'
-
-# check if __git_ps1 exists, if so, append git info
-type -t __git_ps1 1>/dev/null 2>&1
-if [ $? -eq 0 ]; then
-    # show current branch
-    PS1="$PS1\[$txtcyn\]\$(__git_ps1)\[$txtrst\]"
-fi
-
-
-# finalize prompt
-export PS1="$PS1\$ "
-
 # trim "\w" in PS1 if the current working directory is > 3 levels
 export PROMPT_DIRTRIM=3
 
@@ -50,17 +33,9 @@ export MANPAGER="/bin/sh -c \"col -b | ${VIMPAGER} \""
 # at http://askubuntu.com/a/132993/16365
 function gvim () { (/usr/bin/gvim -f "$@" &) }
 
-# source tmuxiantor if it exists
-# install via: # gem install tmuxinator
-[[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
-
-if [ -e $HOME/dotfiles/home/qc/qc/qc.sh ]; then
-    alias qc="$HOME/dotfiles/home/qc/qc/qc.sh"
-fi
-
 alias ipymath=ipython --profile=math
 
-export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CONFIG_HOME=~/.config
 
 alias dispssh="export DISPLAY=localhost:10.0"
 alias displocal="export DISPLAY=:0.0"

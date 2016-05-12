@@ -9,7 +9,9 @@ let mapleader=" "
 " ~/.vimrc
 set nocompatible    " vim defaults (not vi)
 set smartindent     " smart indent
-set encoding=utf-8 " Necessary to show Unicode glyphs
+if !has('nvim')
+    set encoding=utf-8 " Necessary to show Unicode glyphs
+endif
 
 " splitting settings
 set splitbelow " open new window below for sp
@@ -27,6 +29,7 @@ set wildignore+=*.so,*.swp,*.pyc,*.ngc,*.o,*.obj
 set wildmode=longest,list,full " tab-completion for open files a-la bash
 set switchbuf-=newtab "dont' open new tab when reviewing quickfix window
 set cursorline " highlight current line
+set spelllang=en_us
 
 " tab defaults
 """""""""""""""
@@ -40,10 +43,11 @@ set cursorline " highlight current line
 "     expandtab: causes spaces to be used instead of tab characters
 "     softtabstop: fine-tunes the amount of whitespace to be inserted
 "
-set ts=4
-set sw=4
+set tabstop=4
+set shiftwidth=4
 set expandtab
-set sts=4
+set softtabstop=4
+set textwidth=0 " disable automatic word wrap
 
 
 if has("autocmd")
@@ -68,13 +72,6 @@ if has("autocmd")
 
         " treat .VHD as .vhd
         autocmd BufNewFile,BufRead,BufEnter *.VHD setfiletype vhdl
-
-        function SetMarkdownOptions()
-            setfiletype markdown
-            set wrap linebreak spell nolist
-        endfunction
-        " treat .md files as markdown
-        autocmd BufNewFile,BufRead,BufEnter *.md call SetMarkdownOptions()
         "
         " treat SConstruct files as python
         autocmd BufNewFile,BufRead SConstruct,SConscript setfiletype python
@@ -90,6 +87,14 @@ if has("autocmd")
     autocmd FileType markdown setlocal ts=4 sts=4 sw=4 expandtab
     " for 'flowed' mail messages. see http://wcm1.web.rice.edu/mutt-tips.html
     autocmd FileType mail setlocal fo+=aw
+    "" treat .md files as markdown
+    autocmd FileType markdown setlocal wrap linebreak spell nolist textwidth=79 nocursorline
+    " local LaTeX options (set textwidth to automatically wrap)
+    autocmd FileType tex setlocal spell textwidth=79
+    " local HTML options use tabs
+    autocmd FileType html setlocal ts=4 sts=4 sw=4 noexpandtab
+    " close tags automatically if you type  </first
+    autocmd FileType html :iabbrev <buffer> </ </<C-X><C-O>
 
     "turn on loading plugin files for specific file types
     filetype plugin on
@@ -124,8 +129,8 @@ inoremap # X#
 
 " Use the same symbols as TextMate for tabstops and EOLs
 " see http://vimcasts.org/episodes/show-invisibles/
-"set listchars=tab:▸\ ,eol:¬,trail:·
-set listchars=tab:\.\ ,trail:·
+set listchars=tab:▸\ ,eol:¬,trail:·
+"set listchars=tab:\.\ ,trail:·
 set list " show tabs and trailing spaces
 
 " Leader mappings
@@ -188,16 +193,6 @@ function! s:ag_handler(lines)
     wincmd p
   endif
 endfunction
-
-command! -nargs=* Ag call fzf#run({
-\ 'source':  printf('ag --nogroup --nocolor --column "%s"',
-\                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-\ 'sink*':    function('<sid>ag_handler'),
-\ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-\            '--multi --bind ctrl-a:select-all,ctrl-d:deselect-all '.
-\            '--color hl:68,hl+:110',
-\ 'down':    '50%'
-\ })
 
 " Ag word under cursor
 nmap <Leader>g :Ag <C-r><C-w><CR>
@@ -298,7 +293,7 @@ else
         " colorscheme solarized
 
         "let g:rehash256=1
-        colorscheme molokai
+        "colorscheme molokai
 
         "colorscheme jellybeans
         "colorscheme railscasts

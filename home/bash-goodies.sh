@@ -6,16 +6,10 @@
 # enable 256 color
 export TERM=xterm-256color
 
-# enable dirty status from __git_ps1()
-export GIT_PS1_SHOWDIRTYSTATE=1
-
 # bash colors
 if [ -e "$HOME/dotfiles/home/bash-colors.sh" ]; then
     source $HOME/dotfiles/home/bash-colors.sh
 fi
-
-# trim "\w" in PS1 if the current working directory is > 3 levels
-export PROMPT_DIRTRIM=3
 
 # set bash to vi mode
 set -o vi

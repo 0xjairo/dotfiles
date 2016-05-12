@@ -291,7 +291,8 @@ else
 
     " if unix terminal
     else
-        colorscheme atom-dark-256
+        set background=dark
+        colorscheme gruvbox
     endif
 
 endif

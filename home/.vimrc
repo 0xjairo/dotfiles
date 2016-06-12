@@ -7,7 +7,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'benekastah/neomake'
 
 " ctrlp
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+let g:ctrlp_working_path_mode = 'wa' " start from CWD
 
 "EditorConfig Vim Plugin
 Plug 'editorconfig/editorconfig-vim'

@@ -30,6 +30,8 @@ let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#whitespace#show_message = 0
 let g:airline#extensions#syntastic#enabled = 0
+let g:airline#extensions#branch#displayed_head_limit = 10
+let g:airline#extensions#branch#format = 2
 
 " colorschemes
 "Plug 'nanotech/jellybeans.vim', { 'on': []}

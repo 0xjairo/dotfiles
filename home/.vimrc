@@ -47,6 +47,8 @@ Plug 'scrooloose/syntastic'
 "Silver Searcher (silver-searcher-ag)
 Plug 'rking/ag.vim'
 
+Plug 'stephpy/vim-yaml'
+
 " finally
 """""""""
 call plug#end()

@@ -53,6 +53,7 @@ Plug 'scrooloose/syntastic'
 Plug 'rking/ag.vim'
 
 Plug 'stephpy/vim-yaml'
+Plug 'peterhoeg/vim-qml'
 
 " finally
 """""""""

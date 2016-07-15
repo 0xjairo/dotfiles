@@ -10,7 +10,6 @@ Plug 'benekastah/neomake'
 Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_working_path_mode = 'wa' " start from CWD
 Plug 'd11wtq/ctrlp_bdelete.vim'  " delete buffers in ctrlp with <c-@>
-call ctrlp_bdelete#init()
 
 "EditorConfig Vim Plugin
 Plug 'editorconfig/editorconfig-vim'
@@ -58,5 +57,7 @@ Plug 'peterhoeg/vim-qml'
 " finally
 """""""""
 call plug#end()
+
+call ctrlp_bdelete#init()
 
 source ~/dotfiles/vim/vimrc.vim

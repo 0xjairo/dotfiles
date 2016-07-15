@@ -23,14 +23,15 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'majutsushi/tagbar'
 
-Plug 'bling/vim-airline'
-
+Plug 'vim-airline/vim-airline'
 let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#whitespace#show_message = 0
 let g:airline#extensions#syntastic#enabled = 0
 let g:airline#extensions#branch#displayed_head_limit = 10
 let g:airline#extensions#branch#format = 2
+let g:airline_mode_map = {} " Shows abbrev vim modes
+let g:airline_section_y = '' " don't show file encoding and file format
 
 " Show changes
 Plug 'mhinz/vim-signify'

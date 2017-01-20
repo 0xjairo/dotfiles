@@ -20,6 +20,10 @@ Plug 'gosukiwi/vim-atom-dark'
 
 call plug#end()
 
+"force filetype based on filename/extension
+au BufNewFile,BufRead *.cmd set filetype=asm
+au BufNewFile,BufRead SConstruct,SConscript set filetype=python
+
 let g:ycm_extra_conf_globlist = ['~/work/*','!~/*']
 
 " use spaces instead of tabs
@@ -33,6 +37,7 @@ set cursorline
 " show invisible characters
 set listchars=tab:▸\ ,eol:¬,trail:·,space:·
 set nolist " show tabs and trailing spaces
+set hidden " allow switching out of unsaved buffers (and keeps undo when switching buffers)
 
 set ignorecase
 set smartcase

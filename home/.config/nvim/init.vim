@@ -41,6 +41,7 @@ set hidden " allow switching out of unsaved buffers (and keeps undo when switchi
 
 set ignorecase
 set smartcase
+set clipboard+=unnamedplus
 
 let mapleader=" "
 

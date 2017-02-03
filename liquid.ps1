@@ -25,8 +25,7 @@
 # LP_BRACKET_OPEN open bracket
 # LP_BRACKET_CLOSE close bracket
 
-LP_MARK_PREFIX="
-"
+LP_MARK_PREFIX=""
 
 # Remember that most features come with their corresponding colors,
 # see the README.

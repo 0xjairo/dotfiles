@@ -1,4 +1,20 @@
-#[ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
+[ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
+
+export PATH=$HOME/.local/bin:$PATH
+
+# zsh history
+export SAVEHIST=5000
+export HISTFILE=~/.zhistory
+setopt APPEND_HISTORY
+setopt HIST_IGNORE_DUPS
+
+# aliases
+#########
+alias ls='ls --color=auto'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
 
 # load fzf
 ##########

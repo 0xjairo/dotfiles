@@ -43,14 +43,18 @@ set ignorecase
 set smartcase
 set clipboard+=unnamedplus
 
+set grepprg=rg\ --vimgrep
+
 let mapleader=" "
 
-" key remaps
+" FZF key remaps
+""""""""""""""""
 nnoremap <c-p> :Files<CR>
 nnoremap <Leader>p :Buffers<CR>
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+
 " trim trailing white space from lines in file
 nnoremap <Leader>t :%s/\s\+$//e<CR>
-nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 " jump-to definition
 nnoremap <Leader>jd :YcmCompleter GoTo<CR>
 " toggle hightlight search matches
@@ -62,4 +66,11 @@ nnoremap <Leader><Tab> :b#<CR>
 
 set background=dark
 colorscheme gruvbox
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \ 'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \ <bang>0 ? fzf#vim#with_preview('up:60%')
+  \         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \ <bang>0)
 

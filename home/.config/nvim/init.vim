@@ -17,6 +17,9 @@ Plug 'morhetz/gruvbox'
 Plug 'chriskempson/base16-vim'
 Plug 'gosukiwi/vim-atom-dark'
 
+" vimwiki
+Plug 'vimwiki/vimwiki'
+
 
 call plug#end()
 

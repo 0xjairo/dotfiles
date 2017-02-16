@@ -8,6 +8,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'neomake/neomake'
+Plug 'tpope/vim-fugitive'
 
 " neovim-qt shim plugin
 Plug 'equalsraf/neovim-gui-shim'

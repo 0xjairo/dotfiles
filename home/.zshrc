@@ -42,16 +42,16 @@ zplug load
 
 
 setopt PROMPT_SUBST
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[green]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_PREFIX="[%{$fg[green]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}]"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[red]%}*"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
 # logic cof return status. If zero, print nothing (stuff between first ::
 # if it's non-zero, print stuff between : and )
-local ret_status="%(?::[%{$fg_bold[red]%}%?])%{$reset_color%}"
+local ret_status="%(?:: %{$fg_bold[red]%}[%?])%{$reset_color%}"
 
 # assemble prompt
-PROMPT='⦀⦀⦀⦀⦀ %D %* ⦀⦀⦀⦀⦀%{$reset_color%} %{$fg[blue]%}[%n@%m] %{$reset_color%} $(git_prompt_info)
-%{$fg[cyan]%}%{$reset_color%}%~ ${ret_status} '
+PROMPT='%{$fg[cyan]%}[%n@%m]%{$reset_color%} %{$fg[blue]%}[%D %*]%{$reset_color%} $(git_prompt_info) 
+%{$fg[magenta]%}%~${ret_status}%{$reset_color%} %# '
 

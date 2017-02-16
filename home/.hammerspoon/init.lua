@@ -107,4 +107,8 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
     win:setFrame(f)
 end)
 
+hs.hotkey.bind({"cmd", "ctrl"}, "l", function()
+    hs.caffeinate.startScreensaver()
+end)
+
 hs.alert.show("Config loaded")

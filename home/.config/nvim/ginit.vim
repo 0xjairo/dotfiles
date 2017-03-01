@@ -1,3 +1,3 @@
-Guifont DejaVu Sans Mono:h11
+Guifont Source Code Pro:h14
 colorscheme base16-default-dark
 set hlsearch

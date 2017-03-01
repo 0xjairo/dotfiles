@@ -21,6 +21,8 @@ Plug 'gosukiwi/vim-atom-dark'
 " vimwiki
 Plug 'vimwiki/vimwiki'
 
+"status line
+Plug 'itchyny/lightline.vim'
 
 call plug#end()
 
@@ -77,4 +79,38 @@ command! -bang -nargs=* Rg
   \ <bang>0 ? fzf#vim#with_preview('up:60%')
   \         : fzf#vim#with_preview('right:50%:hidden', '?'),
   \ <bang>0)
+
+
+" Status line
+"""""""""""""
+let g:lightline = {
+    \ 'colorscheme': 'wombat',
+    \ 'active': {
+    \   'left': [ ['paste'],
+    \             ['fugitive', 'filename'] ],
+    \ },
+    \ 'component_function': {
+    \       'modified': 'LightlineModified',
+    \       'readonly': 'LightlineReadonly',
+    \       'fugitive': 'LightlineFugitive'
+    \  },
+    \ 'separator': { 'left': '', 'right': '' },
+    \ 'subseparator': { 'left': '|', 'right': '|' }
+    \ }
+
+function! LightlineFugitive()
+	if exists('*fugitive#head')
+		let branch = fugitive#head()
+        return branch !=# '' ? '↯ '.branch : ''
+    endif
+    return ''
+endfunction
+
+function! LightlineReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+endfunction
+
+function! LightlineModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
 

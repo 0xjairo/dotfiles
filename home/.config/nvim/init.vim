@@ -30,7 +30,9 @@ call plug#end()
 au BufNewFile,BufRead *.cmd set filetype=asm
 au BufNewFile,BufRead SConstruct,SConscript set filetype=python
 
+" options for plugin Valloric/YouCompleteMe
 let g:ycm_extra_conf_globlist = ['~/work/*','!~/*']
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " use spaces instead of tabs
 set tabstop=4
@@ -50,6 +52,9 @@ set smartcase
 set clipboard+=unnamedplus
 
 set grepprg=rg\ --vimgrep
+set hlsearch " highlight search matches
+set inccommand=split  " live :%s substitutioni preview in split
+set mouse=a
 
 let mapleader=" "
 
@@ -65,12 +70,16 @@ nnoremap <Leader>t :%s/\s\+$//e<CR>
 nnoremap <Leader>jd :YcmCompleter GoTo<CR>
 " toggle hightlight search matches
 nnoremap <Leader>h :set hlsearch!<CR>
+" clear the search pattern(clears hlsearch)
+nnoremap <Leader>c :let @/=""<CR>
 " close buffer and keep window layout
 nnoremap <Leader>d :b#<bar>:bd#<CR>
 " 
 nnoremap <Leader><Tab> :b#<CR>
 
+" Use gruvbox dark
 set background=dark
+let g:gruvbox_contrast_dark="hard"
 colorscheme gruvbox
 
 command! -bang -nargs=* Rg
@@ -87,7 +96,8 @@ let g:lightline = {
     \ 'colorscheme': 'wombat',
     \ 'active': {
     \   'left': [ ['paste'],
-    \             ['fugitive', 'filename'] ],
+    \             ['fugitive', 'readonly', 'relativepath', 'modified'] ],
+    \   'right': [ ['lineinfo'] ],
     \ },
     \ 'component_function': {
     \       'modified': 'LightlineModified',
@@ -107,10 +117,19 @@ function! LightlineFugitive()
 endfunction
 
 function! LightlineReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'RO' : ''
 endfunction
 
 function! LightlineModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+    if &filetype == "help"
+        return ""
+    elseif &modified
+        return "+"
+    elseif &modifiable
+        return ""
+    else
+        return ""
+    endif
 endfunction
+
 

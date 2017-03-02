@@ -3,10 +3,12 @@
 export PATH=$HOME/.local/bin:$PATH
 
 # zsh history
-export SAVEHIST=5000
+export SAVEHIST=50000
 export HISTFILE=~/.zhistory
 setopt APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
+
+export HISTORY_IGNORE="(ls|cd|cd ..)"
 
 # aliases
 #########
@@ -29,7 +31,7 @@ export KEYTIMEOUT=1
 #############
 if type rg >/dev/null; then
     # use ripgrep to filter with fzf
-    export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" --glob "!build/*"'
+    export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!build/*" --glob "!*.pyc"'
 fi
 
 

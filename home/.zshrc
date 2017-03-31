@@ -1,12 +1,28 @@
 [ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
 
+# try to use an ssh-agent that is already running
+#################################################
+# if this fails (returns 2), then find a socket in /tmp
+ssh-add -l &>/dev/null
+if [[ "$?" == 2 ]];  then
+    # find sockets in /tmp that begin with "agent."
+    agent_sockets=`find /tmp -type s -name agent.\* 2>/dev/null`
+    # use the first one 
+    for sock in $agent_sockets; do
+        export SSH_AUTH_SOCK=$sock
+        break
+    done
+fi
+
 export PATH=$HOME/.local/bin:$PATH
 
 # zsh history
 export SAVEHIST=50000
+export HISTSIZE=$SAVEHIST
 export HISTFILE=~/.zhistory
 setopt APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
+setopt PROMPT_SUBST
 
 export HISTORY_IGNORE="(ls|cd|cd ..)"
 
@@ -17,10 +33,6 @@ alias ll='ls -alF'
 alias la='ls --color=auto -A'
 alias l='ls --color=auto -CF'
 
-
-# load fzf
-##########
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # vi mode
 #########
@@ -41,19 +53,26 @@ source ~/.zplug/init.zsh
 zplug "zsh-users/zsh-history-substring-search"
 zplug load
 
+# load fzf
+##########
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-
-setopt PROMPT_SUBST
-ZSH_THEME_GIT_PROMPT_PREFIX="[%{$fg[green]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}]"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[red]%}*"
+ZSH_THEME_GIT_PROMPT_PREFIX="%F{242}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="*"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
 # logic cof return status. If zero, print nothing (stuff between first ::
 # if it's non-zero, print stuff between : and )
-local ret_status="%(?:: %{$fg_bold[red]%}[%?])%{$reset_color%}"
+local ret_status="%(?::%{$fg_bold[red]%}[%?])%{$reset_color%}"
+local timenow="%F{236%}%D{%F %H:%M:%S}%{$reset_color%}"
+local cwd="%{$fg[cyan]%}%~%{$reset_color%}"
+
 
 # assemble prompt
-PROMPT='%{$fg[cyan]%}[%n@%m]%{$reset_color%} %{$fg[blue]%}[%D %*]%{$reset_color%} $(git_prompt_info) 
-%{$fg[magenta]%}%~${ret_status}%{$reset_color%} %# '
+PROMPT='
+$cwd $(git_prompt_info) $timenow
+$ret_status %{$fg[magenta]%}%(!.#.❯)%{$reset_color%} '
 
+# print time execution information for commands taking longer than this
+export REPORTTIME=3

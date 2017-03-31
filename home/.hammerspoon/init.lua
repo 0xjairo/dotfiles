@@ -1,3 +1,5 @@
+require "hcalendar"
+
 -- Store the state (placement and size) of a window
 -- before it is resized with one of the shortcuts below.
 -- This allows you to "restore" them with cmd-alt-ctrl+Down

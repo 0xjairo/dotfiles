@@ -63,7 +63,7 @@ case "$TERM" in
 esac
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%F{242}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%f"
 ZSH_THEME_GIT_PROMPT_DIRTY="*"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
@@ -71,7 +71,7 @@ if [ "$color_prompt" = yes ]; then
     # logic cof return status. If zero, print nothing (stuff between first ::
     # if it's non-zero, print stuff between : and )
     local ret_status="%(?::%{$fg_bold[red]%}[%?])%{$reset_color%}"
-    local timenow="%F{236%}%D{%F %H:%M:%S}%{$reset_color%}"
+    local timenow="%F{236%}%D{%F %H:%M:%S}%f"
     local cwd="%{$fg[cyan]%}%~%{$reset_color%}"
     local promptchar="%{$fg[magenta]%}%(!.#.❯)%{$reset_color%}"
 else

@@ -11,7 +11,7 @@
 	autocrlf = input
 	pager = less -F -X
 [alias]
-	lg = log --graph --format=format:'%C(yellow)%h%C(reset) - %C(green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold yellow)%d%C(reset)' 
+	lg = log --graph --pretty=format:'%C(yellow)%h %C(green)%ar %C(blue)%an %C(white)%s %C(yellow)%d%C(reset)' 
 
     st = status -sb
 

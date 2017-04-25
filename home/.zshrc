@@ -74,6 +74,7 @@ if [ "$color_prompt" = yes ]; then
     local timenow="%F{236%}%D{%F %H:%M:%S}%f"
     local cwd="%{$fg[cyan]%}%~%{$reset_color%}"
     local promptchar="%{$fg[magenta]%}%(!.#.❯)%{$reset_color%}"
+    local userhost="%F{236%}%n@%m%f"
 else
     # logic cof return status. If zero, print nothing (stuff between first ::
     # if it's non-zero, print stuff between : and )
@@ -81,11 +82,12 @@ else
     local timenow="%D{%F %H:%M:%S}"
     local cwd="%~"
     local promptchar="%(!.#.❯)"
+    local userhost="%n@%m"
 fi
 
 # assemble prompt
 PROMPT='
- $cwd $(git_prompt_info) $timenow
+ $cwd $(git_prompt_info) $userhost $timenow
 $ret_status $promptchar '
 
 # print time execution information for commands taking longer than this

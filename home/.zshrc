@@ -28,10 +28,10 @@ export HISTORY_IGNORE="(ls|cd|cd ..)"
 
 # aliases
 #########
-#alias ls='ls --color=auto'
+#alias ls='ls -G'
 alias ll='ls -alF'
-alias la='ls --color=auto -A'
-alias l='ls --color=auto -CF'
+alias la='ls -G -A'
+alias l='ls -G -CF'
 
 
 # vi mode
@@ -87,8 +87,8 @@ fi
 
 # assemble prompt
 PROMPT='
- $cwd $(git_prompt_info) $userhost $timenow
-$ret_status $promptchar '
+ $cwd $userhost $timenow
+$ret_status $(git_prompt_info) $promptchar '
 
 # print time execution information for commands taking longer than this
 export REPORTTIME=3

@@ -28,10 +28,11 @@ call plug#end()
 
 "force filetype based on filename/extension
 au BufNewFile,BufRead *.cmd set filetype=asm
+au BufNewFile,BufRead *.cla set filetype=c
 au BufNewFile,BufRead SConstruct,SConscript set filetype=python
 
 " options for plugin Valloric/YouCompleteMe
-let g:ycm_extra_conf_globlist = ['~/work/*','!~/*']
+let g:ycm_extra_conf_globlist = ['~/Projects/*','~/work/*','!~/*']
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " use spaces instead of tabs
@@ -74,8 +75,10 @@ nnoremap <Leader>h :set hlsearch!<CR>
 nnoremap <Leader>c :let @/=""<CR>
 " close buffer and keep window layout
 nnoremap <Leader>d :b#<bar>:bd#<CR>
-" 
+" previous buffer
 nnoremap <Leader><Tab> :b#<CR>
+" cd to directory containing file
+nnoremap <Leader>~ :cd %:p:h<CR>
 
 " Use gruvbox dark
 set background=dark

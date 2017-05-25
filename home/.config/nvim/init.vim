@@ -7,7 +7,6 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'neomake/neomake'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 
@@ -61,6 +60,10 @@ set mouse=a
 " cmdline completion to complete as much as possible
 set wildmode=longest,list,full
 set wildmenu
+
+" map the command :wq to :w to avoid accidentaly write-quits
+" to write-quit use :x
+cmap wq w
 
 let mapleader=" "
 

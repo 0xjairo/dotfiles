@@ -62,7 +62,7 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%F{242}"
+ZSH_THEME_GIT_PROMPT_PREFIX="%F{green}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%f"
 ZSH_THEME_GIT_PROMPT_DIRTY="*"
 ZSH_THEME_GIT_PROMPT_CLEAN=""

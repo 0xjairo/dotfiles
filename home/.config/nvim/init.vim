@@ -58,6 +58,10 @@ set hlsearch " highlight search matches
 set inccommand=split  " live :%s substitutioni preview in split
 set mouse=a
 
+" cmdline completion to complete as much as possible
+set wildmode=longest,list,full
+set wildmenu
+
 let mapleader=" "
 
 " FZF key remaps
@@ -80,6 +84,9 @@ nnoremap <Leader>d :b#<bar>:bd#<CR>
 nnoremap <Leader><Tab> :b#<CR>
 " cd to directory containing file
 nnoremap <Leader>~ :cd %:p:h<CR>
+" Wrap lines
+set linebreak "wrap lines on word boundaries
+nnoremap <Leader>r :set wrap!<CR>
 
 " Use gruvbox dark
 set background=dark

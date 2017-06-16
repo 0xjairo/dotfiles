@@ -28,8 +28,11 @@ export HISTORY_IGNORE="(ls|cd|cd ..)"
 
 # aliases
 #########
-#alias ls='ls -G'
-alias ls='ls --color=auto'
+if [ "`uname`" = "Darwin" ]; then
+    alias ls='ls -G'
+else
+    alias ls='ls --color=auto'
+fi
 alias ll='ls -alF'
 alias la='ls -G -A'
 alias l='ls -G -CF'

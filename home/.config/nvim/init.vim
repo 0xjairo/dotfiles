@@ -47,6 +47,7 @@ set cursorline
 set listchars=tab:▸\ ,eol:¬,trail:·,space:·
 set nolist " show tabs and trailing spaces
 set hidden " allow switching out of unsaved buffers (and keeps undo when switching buffers)
+set scrolloff=5
 
 set ignorecase
 set smartcase

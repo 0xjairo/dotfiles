@@ -74,7 +74,7 @@ precmd () { vcs_info }
 if [ "$color_prompt" = yes ]; then
     # logic cof return status. If zero, print nothing (stuff between first ::
     # if it's non-zero, print stuff between : and )
-    local ret_status="%(?::%B%F{red}[%?])%b%f"
+    local ret_status="%(?:: %B%F{red}[%?])%b%f"
     local cwd="%F{cyan}%~%{$reset_color%}%f"
     local userhost="%F{242}:: %n@%m%f"
     local timenow="%F{242}:: %D{%F %H:%M:%S}%f"
@@ -91,7 +91,7 @@ fi
 
 PROMPT='
  $cwd $userhost $timenow
-$ret_status ${vcs_info_msg_0_} $promptchar '
+${vcs_info_msg_0_} $promptchar$ret_status '
 
 # print time execution information for commands taking longer than this
 export REPORTTIME=3

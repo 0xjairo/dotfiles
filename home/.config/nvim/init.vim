@@ -9,6 +9,13 @@ Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " neovim-qt shim plugin
 Plug 'equalsraf/neovim-gui-shim'
@@ -82,8 +89,8 @@ nnoremap <Leader>jd :YcmCompleter GoTo<CR>
 nnoremap <Leader>h :set hlsearch!<CR>
 " clear the search pattern(clears hlsearch)
 nnoremap <Leader>c :let @/=""<CR>
-" close buffer and keep window layout
-nnoremap <Leader>d :b#<bar>:bd#<CR>
+" delete buffer
+nnoremap <Leader>d :bd<CR>
 " previous buffer
 nnoremap <Leader><Tab> :b#<CR>
 " cd to directory containing file

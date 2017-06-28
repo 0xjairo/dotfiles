@@ -1,13 +1,21 @@
 set git-colors = no
+# show staged/unstaged changes in the main view
 set show-changes = yes
+# order by tree structure, not commit date
 set commit-order = topo
+# refresh changes auomatically
 set refresh-mode = auto
+
+# don't display hash, toggle with X
 set main-view = \
-  date:relative \
-  author:abbreviated \
-  id:yes,color \
-  commit-title:graph=yes,refs=yes
+  date:relative-compact \
+  author:display=full,width=15 \
+  id:no commit-title:graph=v2,refs=yes
+
+# pretty graph
 set line-graphics = utf-8
 
-# colors
-color cursor    default default reverse
+# cursor color fgcolor bgcolor attributes
+color cursor    default default bold
+# show all
+#set main-options = --exclude=refs/stash --all

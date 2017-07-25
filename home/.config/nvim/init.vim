@@ -1,5 +1,7 @@
-" .nvimrc
-set termguicolors
+"" .nvimrc
+"set termguicolors
+"set cursorline
+"colorscheme gruvbox
 
 call plug#begin()
 
@@ -49,7 +51,6 @@ set expandtab
 set nohlsearch " don't highlight search matches
 set nowrap
 set number
-set cursorline
 " show invisible characters
 set listchars=tab:▸\ ,eol:¬,trail:·,space:·
 set nolist " show tabs and trailing spaces
@@ -61,7 +62,6 @@ set smartcase
 set clipboard+=unnamedplus
 
 set grepprg=rg\ --vimgrep
-set hlsearch " highlight search matches
 set inccommand=split  " live :%s substitutioni preview in split
 set mouse=a
 
@@ -102,7 +102,6 @@ nnoremap <Leader>r :set wrap!<CR>
 " Use gruvbox dark
 set background=dark
 let g:gruvbox_contrast_dark="hard"
-colorscheme gruvbox
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(

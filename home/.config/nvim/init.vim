@@ -40,6 +40,12 @@ au BufNewFile,BufRead *.cmd set filetype=asm
 au BufNewFile,BufRead *.cla set filetype=c
 au BufNewFile,BufRead SConstruct,SConscript set filetype=python
 
+" comment continuation in vhdl or when reflowing comments with gq
+augroup vhdlsyntax
+   autocmd!
+   autocmd FileType,Syntax vhdl set formatoptions=tcorq comments+=:--!,b:--!,:--,b:--
+augroup END<Paste>
+
 " options for plugin Valloric/YouCompleteMe
 let g:ycm_extra_conf_globlist = ['~/Projects/*','~/work/*','!~/*']
 let g:ycm_autoclose_preview_window_after_insertion = 1
@@ -99,9 +105,6 @@ nnoremap <Leader>~ :cd %:p:h<CR>
 set linebreak "wrap lines on word boundaries
 nnoremap <Leader>r :set wrap!<CR>
 
-" Use gruvbox dark
-set background=dark
-let g:gruvbox_contrast_dark="hard"
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(

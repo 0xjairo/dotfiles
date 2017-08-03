@@ -1,19 +1,6 @@
 [ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
 
-# try to use an ssh-agent that is already running
-#################################################
-# if this fails (returns 2), then find a socket in /tmp
-ssh-add -l &>/dev/null
-if [[ "$?" == 2 ]];  then
-    # find sockets in /tmp that begin with "agent."
-    agent_sockets=`find /tmp -type s -name agent.\* 2>/dev/null`
-    # use the first one
-    for sock in $agent_sockets; do
-        export SSH_AUTH_SOCK=$sock
-        break
-    done
-fi
-
+[ -e "${HOME}/dotfiles/bin" ] && export PATH=$HOME/dotfiles/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
 # zsh history
@@ -52,14 +39,28 @@ fi
 
 # load fzf
 ##########
+export FZF_TMUX=1
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-#
+
+# pass completion suggested by @d4ndo (#362)
+# to trigger call: `pass  **<TAB>`
+_fzf_complete_pass() {
+_fzf_complete '+m' "$@" < <(
+  local pwdir=${PASSWORD_STORE_DIR-~/.password-store/}
+  local stringsize="${#pwdir}"
+  find "$pwdir" -name "*.gpg" -print |
+      cut -c "$((stringsize + 1))"-  |
+      sed -e 's/\(.*\)\.gpg/\1/'
+)
+}
+
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # git/svn info in prompt
+autoload -U compinit && compinit
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:*' use-simple true

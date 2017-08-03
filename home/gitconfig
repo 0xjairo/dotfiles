@@ -11,7 +11,7 @@
 	autocrlf = input
 	pager = less -F -X
 [alias]
-	lg = log --graph --pretty=format:'%C(yellow)%h %C(green)%ar %C(blue)%an %C(white)%s %C(yellow)%d%C(reset)' 
+    lg = !~/dotfiles/bin/git-lg
 
     st = status -sb
 

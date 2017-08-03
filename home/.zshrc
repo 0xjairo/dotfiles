@@ -1,19 +1,5 @@
 [ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
 
-# try to use an ssh-agent that is already running
-#################################################
-# if this fails (returns 2), then find a socket in /tmp
-ssh-add -l &>/dev/null
-if [[ "$?" == 2 ]];  then
-    # find sockets in /tmp that begin with "agent."
-    agent_sockets=`find /tmp -type s -name agent.\* 2>/dev/null`
-    # use the first one
-    for sock in $agent_sockets; do
-        export SSH_AUTH_SOCK=$sock
-        break
-    done
-fi
-
 export PATH=$HOME/.local/bin:$PATH
 
 # zsh history

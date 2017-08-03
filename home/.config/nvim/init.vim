@@ -1,11 +1,8 @@
 "" .nvimrc
-"set termguicolors
-"set cursorline
-"colorscheme gruvbox
-
 call plug#begin()
 
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+Plug 'vim-syntastic/syntastic'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
@@ -18,6 +15,10 @@ Plug 'honza/vim-snippets'
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+" syntastic options
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=2
 
 " neovim-qt shim plugin
 Plug 'equalsraf/neovim-gui-shim'
@@ -44,7 +45,7 @@ au BufNewFile,BufRead SConstruct,SConscript set filetype=python
 augroup vhdlsyntax
    autocmd!
    autocmd FileType,Syntax vhdl set formatoptions=tcorq comments+=:--!,b:--!,:--,b:--
-augroup END<Paste>
+augroup END
 
 " options for plugin Valloric/YouCompleteMe
 let g:ycm_extra_conf_globlist = ['~/Projects/*','~/work/*','!~/*']

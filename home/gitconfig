@@ -1,15 +1,18 @@
 ﻿[push]
 	default = upstream
 [diff]
-	tool = meld
+	tool = nvim
+[difftool "nvim"]
+    cmd = nvim -d $LOCAL $REMOTE
 [merge]
-	tool = mymeld
+	tool = nvim
     conflictstyle = diff3
 [mergetool "mymeld"]
-    cmd = meld --output $MERGED $LOCAL $BASE $REMOTE
+    cmd = meld --output $MERGED $LOCAL $BASE $REMOTE -c 'set termguicolors' -c 'set background=dark' -c 'colorscheme gruvbox'
+[mergetool "nvim"]
+    cmd = nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J' -c 'set termguicolors' -c 'set background=dark' -c 'colorscheme gruvbox'
 [core]
 	autocrlf = input
-	pager = less -F -X
 [alias]
     lg = !~/dotfiles/bin/git-lg
 

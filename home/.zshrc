@@ -1,5 +1,6 @@
 [ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
 
+[ -e "${HOME}/dotfiles/bin" ] && export PATH=$HOME/dotfiles/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
 # zsh history
@@ -38,6 +39,7 @@ fi
 
 # load fzf
 ##########
+export FZF_TMUX=1
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 #
 # set a fancy prompt (non-color, unless we know we "want" color)
@@ -46,6 +48,7 @@ case "$TERM" in
 esac
 
 # git/svn info in prompt
+autoload -U compinit && compinit
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:*' use-simple true

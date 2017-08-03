@@ -41,7 +41,19 @@ fi
 ##########
 export FZF_TMUX=1
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-#
+
+# pass completion suggested by @d4ndo (#362)
+# to trigger call: `pass  **<TAB>`
+_fzf_complete_pass() {
+_fzf_complete '+m' "$@" < <(
+  local pwdir=${PASSWORD_STORE_DIR-~/.password-store/}
+  local stringsize="${#pwdir}"
+  find "$pwdir" -name "*.gpg" -print |
+      cut -c "$((stringsize + 1))"-  |
+      sed -e 's/\(.*\)\.gpg/\1/'
+)
+}
+
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;

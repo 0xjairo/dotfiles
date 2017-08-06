@@ -132,20 +132,22 @@ nnoremap <c-p> :Files<CR>
 nnoremap <Leader>p :Buffers<CR>
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 
-" trim trailing white space from lines in file
-nnoremap <Leader>t :%s/\s\+$//e<CR>
-" jump-to definition
-nnoremap <Leader>jd :YcmCompleter GoTo<CR>
-" toggle hightlight search matches
-nnoremap <Leader>h :set hlsearch!<CR>
-" clear the search pattern(clears hlsearch)
-nnoremap <Leader>c :let @/=""<CR>
-" delete buffer
-nnoremap <Leader>d :bd<CR>
 " previous buffer
 nnoremap <Leader><Tab> :b#<CR>
 " cd to directory containing file
 nnoremap <Leader>~ :cd %:p:h<CR>
+" clear the search pattern(clears hlsearch)
+nnoremap <Leader>c :let @/=""<CR>
+" delete buffer
+nnoremap <Leader>d :bd<CR>
+" jump-to definition
+nnoremap <Leader>jd :YcmCompleter GoTo<CR>
+" toggle hightlight search matches
+nnoremap <Leader>l :set hlsearch!<CR>
+" toggle match current word
+nnoremap <Leader>m :call ToggleMatchCurWord()<CR>
+" trim trailing white space from lines in file
+nnoremap <Leader>t :%s/\s\+$//e<CR>
 " Wrap lines
 set linebreak "wrap lines on word boundaries
 nnoremap <Leader>r :set wrap!<CR>

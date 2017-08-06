@@ -41,6 +41,50 @@ au BufNewFile,BufRead *.cmd set filetype=asm
 au BufNewFile,BufRead *.cla set filetype=c
 au BufNewFile,BufRead SConstruct,SConscript set filetype=python
 
+" Highlight all instances of word under cursor, when idle.
+" Useful when studying strange source code.
+" Type z/ to toggle highlighting on/off.
+nnoremap z/ :call AutoHighlightToggle()<CR>
+
+let g:match_word_ena = v:false
+function! ToggleMatchCurWord()
+    if g:match_word_ena != v:true
+        call MatchCurWord()
+        let g:match_word_ena = v:true
+    else
+        match none
+        let g:match_word_ena = v:false
+    endif
+endfunction
+
+function! MatchCurWord()
+    let l:curword =  escape(expand('<cword>'), '/\')
+    exe printf('match IncSearch /\V\<%s\>/', l:curword)
+    let @/=printf("\\<%s\\>", l:curword)
+endfunction
+
+let g:auto_hl_prev_search = ""
+function! AutoHighlightToggle()
+    if exists('#auto_highlight')
+        au! auto_highlight
+        augroup! auto_highlight
+        echo 'Highlight current word: off'
+        match none
+        let @/=g:auto_hl_prev_search
+        return 0
+    else
+        let g:auto_hl_prev_search = @/
+        augroup auto_highlight
+            autocmd!
+            autocmd CursorMoved * call MatchCurWord()
+        augroup end
+        " call :match() once to trigger current word on enable
+        call MatchCurWord()
+        echo 'Highlight current word: ON'
+        return 1
+    endif
+endfunction
+
 " comment continuation in vhdl or when reflowing comments with gq
 augroup vhdlsyntax
    autocmd!

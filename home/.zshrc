@@ -10,7 +10,6 @@ export HISTFILE=~/.zhistory
 setopt APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt PROMPT_SUBST
-
 export HISTORY_IGNORE="(ls|cd|cd ..)"
 
 # aliases
@@ -72,15 +71,15 @@ zstyle ':vcs_info:*' formats "%F{242}%s:%F{green}%b%f %m%u%c"
 zstyle ':vcs_info:*' actionformats "%F{242}%s:%F{green}%b%f %F{yellow}(%a)%f %m%u%c"
 precmd () { vcs_info }
 
-if [ "$color_prompt" = yes ]; then
-    # logic cof return status. If zero, print nothing (stuff between first ::
-    # if it's non-zero, print stuff between : and )
-    local ret_status="%(?:: %B%F{red}[%?])%b%f"
-    local cwd="%F{cyan}%~%{$reset_color%}%f"
-    local userhost="%F{242}:: %n@%m%f"
-    local timenow="%F{242}:: %D{%F %H:%M:%S}%f"
-    local promptchar="%F{magenta}%(!.#.❯)%f"
-else
+#if [ "$color_prompt" = yes ]; then
+#    # logic cof return status. If zero, print nothing (stuff between first ::
+#    # if it's non-zero, print stuff between : and )
+#    local ret_status="%(?:: %B%F{red}[%?])%b%f"
+#    local cwd="%F{cyan}%~%{$reset_color%}%f"
+#    local userhost="%F{242}:: %n@%m%f"
+#    local timenow="%F{242}:: %D{%F %H:%M:%S}%f"
+#    local promptchar="%F{magenta}%(!.#.❯)%f"
+#else
     # logic cof return status. If zero, print nothing (stuff between first ::
     # if it's non-zero, print stuff between : and )
     local ret_status="%(?::[%?])"
@@ -88,12 +87,14 @@ else
     local userhost="%n@%m"
     local timenow="%D{%F %H:%M:%S}"
     local promptchar="%(!.#.❯)"
-fi
+#fi
 
-PROMPT='
- $cwd $userhost $timenow
-${vcs_info_msg_0_} $promptchar$ret_status '
+ PROMPT='$cwd ${vcs_info_msg_0_}$promptchar$ret_status '
 
 # print time execution information for commands taking longer than this
 export REPORTTIME=3
+
+# plugins
+source ~/.zsh/zsh-histdb/history-timer.zsh
+source ~/.zsh/zsh-histdb/sqlite-history.zsh
 

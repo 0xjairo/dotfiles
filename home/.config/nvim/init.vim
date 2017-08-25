@@ -37,6 +37,15 @@ Plug 'itchyny/lightline.vim'
 
 call plug#end()
 
+if has("nvim")
+    set termguicolors
+    "colorscheme base16-monokai
+    colorscheme gruvbox
+else
+    set background=dark
+    colorscheme gruvbox
+endif
+
 "force filetype based on filename/extension
 au BufNewFile,BufRead *.cmd set filetype=asm
 au BufNewFile,BufRead *.cla set filetype=c
@@ -108,13 +117,20 @@ set listchars=tab:▸\ ,eol:¬,trail:·,space:·
 set nolist " show tabs and trailing spaces
 set hidden " allow switching out of unsaved buffers (and keeps undo when switching buffers)
 set scrolloff=5
-
+set cursorline
 set ignorecase
 set smartcase
 set clipboard+=unnamedplus
 
 set grepprg=rg\ --vimgrep
-set inccommand=split  " live :%s substitutioni preview in split
+if has("nvim")
+    set inccommand=split  " live :%s substitutioni preview in split
+else
+    " vim only options
+    set backupdir=~/.vim/backup//
+    set directory=~/.vim/swap//
+    set undodir=~/.vim/undo//
+endif
 set mouse=a
 
 " cmdline completion to complete as much as possible
@@ -130,7 +146,7 @@ let mapleader=" "
 " FZF key remaps
 """"""""""""""""
 nnoremap <c-p> :Files<CR>
-nnoremap <Leader>p :Buffers<CR>
+nnoremap <Leader>b :Buffers<CR>
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 
 " previous buffer
@@ -164,8 +180,9 @@ command! -bang -nargs=* Rg
 
 " Status line
 """""""""""""
+set laststatus=2
 let g:lightline = {
-    \ 'colorscheme': 'wombat',
+    \ 'colorscheme': 'seoul256',
     \ 'active': {
     \   'left': [ ['paste'],
     \             ['fugitive', 'readonly', 'relativepath', 'modified'] ],

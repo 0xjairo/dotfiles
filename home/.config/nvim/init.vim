@@ -1,7 +1,9 @@
 "" .nvimrc
 call plug#begin()
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+if has("nvim")
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+endif
 Plug 'vim-syntastic/syntastic'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -120,12 +122,13 @@ set scrolloff=5
 set cursorline
 set ignorecase
 set smartcase
-set clipboard+=unnamedplus
 
 set grepprg=rg\ --vimgrep
 if has("nvim")
+    set clipboard+=unnamedplus
     set inccommand=split  " live :%s substitutioni preview in split
 else
+    set clipboard+=unnamed
     " vim only options
     set backupdir=~/.vim/backup//
     set directory=~/.vim/swap//

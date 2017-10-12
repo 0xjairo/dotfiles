@@ -1,3 +1,3 @@
-Guifont Source Code Pro:h14
-colorscheme base16-default-dark
-set hlsearch
+Guifont Source Code Pro:h10
+colorscheme base16-onedark
+set nohlsearch

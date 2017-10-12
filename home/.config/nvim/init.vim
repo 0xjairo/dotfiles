@@ -11,6 +11,7 @@ Plug 'tpope/vim-surround'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'aklt/plantuml-syntax'
+Plug 'fs111/pydoc.vim'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-j>"
@@ -40,6 +41,7 @@ call plug#end()
 if has("nvim")
     set termguicolors
     "colorscheme base16-monokai
+    set background=dark
     colorscheme gruvbox
 else
     set background=dark
@@ -147,7 +149,7 @@ let mapleader=" "
 """"""""""""""""
 nnoremap <c-p> :Files<CR>
 nnoremap <Leader>b :Buffers<CR>
-nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
 
 " previous buffer
 nnoremap <Leader><Tab> :b#<CR>
@@ -220,5 +222,3 @@ function! LightlineModified()
         return ""
     endif
 endfunction
-
-

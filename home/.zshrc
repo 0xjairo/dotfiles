@@ -1,5 +1,3 @@
-[ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
-
 [ -e "${HOME}/dotfiles/bin" ] && export PATH=$HOME/dotfiles/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
@@ -38,7 +36,6 @@ fi
 
 # load fzf
 ##########
-export FZF_TMUX=1
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # pass completion suggested by @d4ndo (#362)
@@ -86,7 +83,7 @@ precmd () { vcs_info }
     local cwd="%~"
     local userhost="%n@%m"
     local timenow="%D{%F %H:%M:%S}"
-    local promptchar="%(!.#.❯)"
+    local promptchar="%(!.#.$)"
 #fi
 
  PROMPT='$cwd ${vcs_info_msg_0_}$promptchar$ret_status '
@@ -97,4 +94,6 @@ export REPORTTIME=3
 # plugins
 source ~/.zsh/zsh-histdb/history-timer.zsh
 source ~/.zsh/zsh-histdb/sqlite-history.zsh
+
+[ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
 

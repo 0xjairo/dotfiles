@@ -34,13 +34,18 @@ Plug 'gosukiwi/vim-atom-dark'
 
 " vimwiki
 Plug 'vimwiki/vimwiki'
+let g:vimwiki_root = $HOME . '/Documents/Wiki'
+let g:vimwiki_list = [{'path': '~/Documents/Wiki'}]
+au BufNewFile,BufRead *.wiki set textwidth=80 formatoptions+=t
 
 "status line
 Plug 'itchyny/lightline.vim'
 
 call plug#end()
 
-if has("nvim")
+if has("gui_vimr")
+    colorscheme base16-onedark
+elseif has("nvim")
     set termguicolors
     "colorscheme base16-monokai
     set background=dark
@@ -121,7 +126,7 @@ set listchars=tab:▸\ ,eol:¬,trail:·,space:·
 set nolist " show tabs and trailing spaces
 set hidden " allow switching out of unsaved buffers (and keeps undo when switching buffers)
 set scrolloff=5
-set cursorline
+set nocursorline
 set ignorecase
 set smartcase
 

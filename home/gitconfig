@@ -10,7 +10,8 @@
 [core]
 	autocrlf = input
 [alias]
-    lg = !~/dotfiles/bin/git-lg
+    l = !~/dotfiles/bin/git-l
+    lg = log --graph --pretty=format:'%C(yellow)%h %C(green)%ar %C(blue)%an %C(white)%s %C(yellow)%d%C(reset)'
 
     st = status -sb
 

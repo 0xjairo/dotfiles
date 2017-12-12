@@ -1,10 +1,8 @@
 "" .nvimrc
 call plug#begin()
 
-if has("nvim")
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
-endif
-Plug 'vim-syntastic/syntastic'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+Plug 'neomake/neomake'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
@@ -15,15 +13,12 @@ Plug 'honza/vim-snippets'
 Plug 'aklt/plantuml-syntax'
 Plug 'fs111/pydoc.vim'
 Plug 'rust-lang/rust.vim'
+Plug 'tpope/vim-commentary'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-
-" syntastic options
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=2
 
 " neovim-qt shim plugin
 Plug 'equalsraf/neovim-gui-shim'
@@ -44,13 +39,19 @@ Plug 'itchyny/lightline.vim'
 
 call plug#end()
 
+if has("nvim")
+    " auto run linting in normal mode with nvim only (async not supported in vim 7.4)
+    call neomake#configure#automake('nw', 1000)
+else
+    " auto run linting on :write 
+    call neomake#configure#automake('w')
+endif
+
 if has("gui_vimr")
     colorscheme base16-onedark
 elseif has("nvim")
     set termguicolors
-    "colorscheme base16-monokai
-    set background=dark
-    colorscheme gruvbox
+    colorscheme base16-onedark
 else
     set background=dark
     colorscheme gruvbox
@@ -109,6 +110,7 @@ endfunction
 augroup vhdlsyntax
    autocmd!
    autocmd FileType,Syntax vhdl set formatoptions=tcorq comments+=:--!,b:--!,:--,b:--
+   autocmd FileType,Syntax vhdl setlocal commentstring=--\ %s
 augroup END
 
 " options for plugin Valloric/YouCompleteMe
@@ -127,7 +129,7 @@ set listchars=tab:▸\ ,eol:¬,trail:·,space:·
 set nolist " show tabs and trailing spaces
 set hidden " allow switching out of unsaved buffers (and keeps undo when switching buffers)
 set scrolloff=5
-set nocursorline
+set cursorline
 set ignorecase
 set smartcase
 
@@ -157,7 +159,7 @@ let mapleader=" "
 " FZF key remaps
 """"""""""""""""
 nnoremap <c-p> :Files<CR>
-nnoremap <Leader>b :Buffers<CR>
+nmap ; :Buffers<CR>
 nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
 
 " previous buffer

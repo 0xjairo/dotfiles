@@ -92,8 +92,8 @@ precmd () { vcs_info }
 export REPORTTIME=3
 
 # plugins
-source ~/.zsh/zsh-histdb/history-timer.zsh
-source ~/.zsh/zsh-histdb/sqlite-history.zsh
+[ -e "${HOME}/.zsh/zsh-histdb/history-timer.zsh" ] && source "${HOME}/.zsh/zsh-histdb/history-timer.zsh"
+[ -e "${HOME}/.zsh/zsh-histdb/sqlite-history.zsh" ] && source "${HOME}/.zsh/zsh-histdb/sqlite-history.zsh"
 
 [ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
 

@@ -14,6 +14,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'aklt/plantuml-syntax'
 Plug 'fs111/pydoc.vim'
+Plug 'rust-lang/rust.vim'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-j>"

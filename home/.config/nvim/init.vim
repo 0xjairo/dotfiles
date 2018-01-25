@@ -51,10 +51,10 @@ if has("gui_vimr")
     colorscheme base16-onedark
 elseif has("nvim")
     set termguicolors
-    colorscheme base16-onedark
+    colorscheme pablo "base16-onedark
 else
     set background=dark
-    colorscheme gruvbox
+    colorscheme pablo "gruvbox
 endif
 
 "force filetype based on filename/extension
@@ -129,7 +129,7 @@ set listchars=tab:▸\ ,eol:¬,trail:·,space:·
 set nolist " show tabs and trailing spaces
 set hidden " allow switching out of unsaved buffers (and keeps undo when switching buffers)
 set scrolloff=5
-set cursorline
+set nocursorline
 set ignorecase
 set smartcase
 
@@ -166,8 +166,8 @@ nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
 nnoremap <Leader><Tab> :b#<CR>
 " cd to directory containing file
 nnoremap <Leader>~ :cd %:p:h<CR>
-" clear the search pattern(clears hlsearch)
-nnoremap <Leader>c :let @/=""<CR>
+" toggle cursorline
+nnoremap <Leader>c :set cursorline!<CR>
 " delete buffer
 nnoremap <Leader>d :bd<CR>
 " jump-to definition
@@ -182,7 +182,25 @@ nnoremap <Leader>t :%s/\s\+$//e<CR>
 set linebreak "wrap lines on word boundaries
 nnoremap <Leader>r :set wrap!<CR>
 
+" FZF hotness
+" Builds quickfix list (:copen) from selected FZF items
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
 
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+
+let g:netrw_preview = 1 " preview file with 'p' in a direcetory listing
+let g:netrw_liststyle = 3
+let g:netrw_winsize = 20
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \ 'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,

@@ -67,17 +67,6 @@ au BufNewFile,BufRead SConstruct,SConscript set filetype=python
 " Type z/ to toggle highlighting on/off.
 nnoremap z/ :call AutoHighlightToggle()<CR>
 
-let g:match_word_ena = v:false
-function! ToggleMatchCurWord()
-    if g:match_word_ena != v:true
-        call MatchCurWord()
-        let g:match_word_ena = v:true
-    else
-        match none
-        let g:match_word_ena = v:false
-    endif
-endfunction
-
 function! MatchCurWord()
     let l:curword =  escape(expand('<cword>'), '/\')
     exe printf('match IncSearch /\V\<%s\>/', l:curword)
@@ -175,7 +164,8 @@ nnoremap <Leader>jd :YcmCompleter GoTo<CR>
 " toggle hightlight search matches
 nnoremap <Leader>l :set hlsearch!<CR>
 " toggle match current word
-nnoremap <Leader>m :call ToggleMatchCurWord()<CR>
+nnoremap <Leader>m :call MatchCurWord()<CR>
+nnoremap <Leader>M :match none<CR>
 " trim trailing white space from lines in file
 nnoremap <Leader>t :%s/\s\+$//e<CR>
 " Wrap lines

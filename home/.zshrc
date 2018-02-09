@@ -64,7 +64,7 @@ zstyle ':vcs_info:*' max-exports 2
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:*' unstagedstr "%F{red}*%f"
 zstyle ':vcs_info:*' stagedstr "%F{green}+%f"
-zstyle ':vcs_info:*' formats "%F{242}[ %s:%b%f%m%u%c%F{242} ]%f"
+zstyle ':vcs_info:*' formats "%F{242}[ %s:%f%F{green}%b%f%m%u%c%F{242} ]%f"
 zstyle ':vcs_info:*' actionformats "%F{242}%s:%F{green}%b%f %F{yellow}(%a)%f %m%u%c"
 precmd () { vcs_info }
 

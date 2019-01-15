@@ -1,7 +1,6 @@
 "" .nvimrc
 call plug#begin()
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 Plug 'neomake/neomake'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -10,7 +9,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'aklt/plantuml-syntax'
 Plug 'fs111/pydoc.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-commentary'
@@ -38,9 +36,43 @@ au BufNewFile,BufRead *.wiki set textwidth=80 formatoptions+=t
 "status line
 Plug 'itchyny/lightline.vim'
 
+if has("nvim")
+    " LanguageClient-neovim
+    Plug 'autozimu/LanguageClient-neovim', {
+        \ 'branch': 'next',
+        \ 'do': 'bash install.sh',
+        \ }
+
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    let g:LanguageClient_serverCommands = {
+        \ 'cpp': ['clangd-6.0'],
+        \ 'c': ['clangd-6.0'],
+        \ 'python': ['~/.local/bin/pyls'],
+        \ }
+
+    let g:LanguageClient_serverStderr = '/tmp/clangd.stderr'
+    let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
+    let g:LanguageClient_settingsPath = '~/.config/nvim/settings.json'
+    set completefunc=LanguageClient#complete
+    set formatexpr=LanguageClient_textDocument_rangeFormatting()
+
+    nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <silent> gr :call LanguageClient#textDocument_references()<CR>
+    nnoremap <silent> gs :call LanguageClient#textDocument_documentSymbol()<CR>
+    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+    nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+endif
+
 call plug#end()
 
 if has("nvim")
+    call deoplete#custom#source('LanguageClient',
+                \ 'min_pattern_length',
+                \ 2)
+    let g:deoplete#enable_at_startup = 1
+
     " auto run linting in normal mode with nvim only (async not supported in vim 7.4)
     call neomake#configure#automake('nw', 1000)
 else
@@ -103,10 +135,6 @@ augroup vhdlsyntax
    autocmd FileType,Syntax vhdl setlocal commentstring=--\ %s
 augroup END
 
-" options for plugin Valloric/YouCompleteMe
-let g:ycm_extra_conf_globlist = ['~/Projects/*','~/work/*','!~/*']
-let g:ycm_autoclose_preview_window_after_insertion = 1
-
 " use spaces instead of tabs
 set tabstop=4
 set shiftwidth=4
@@ -160,8 +188,6 @@ nnoremap <Leader>~ :cd %:p:h<CR>
 nnoremap <Leader>c :set cursorline!<CR>
 " delete buffer
 nnoremap <Leader>d :bd<CR>
-" jump-to definition
-nnoremap <Leader>jd :YcmCompleter GoTo<CR>
 " toggle hightlight search matches
 nnoremap <Leader>l :set hlsearch!<CR>
 " toggle match current word

@@ -31,7 +31,8 @@ Plug 'gosukiwi/vim-atom-dark'
 " vimwiki
 Plug 'vimwiki/vimwiki'
 let g:vimwiki_root = $HOME . '/Documents/Wiki'
-let g:vimwiki_list = [{'path': '~/Documents/Wiki'}]
+let g:vimwiki_list = [{'path': '~/Documents/Wiki',
+                       \ 'syntax': 'markdown', 'ext': '.md'}]
 au BufNewFile,BufRead *.wiki set textwidth=80 formatoptions+=t
 
 "status line

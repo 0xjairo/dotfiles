@@ -77,7 +77,7 @@ if has("gui_vimr")
     colorscheme base16-onedark
 elseif has("nvim")
     set termguicolors
-    colorscheme pablo "base16-onedark
+    colorscheme base16-monokai
 else
     set background=dark
     colorscheme pablo "gruvbox
@@ -186,6 +186,8 @@ nnoremap <Leader>l :set hlsearch!<CR>
 " toggle match current word
 nnoremap <Leader>m :call MatchCurWord()<CR>
 nnoremap <Leader>M :match none<CR>
+" cnext
+nnoremap <Leader>n :cnext<CR>
 " trim trailing white space from lines in file
 nnoremap <Leader>t :%s/\s\+$//e<CR>
 " Wrap lines
@@ -261,3 +263,20 @@ function! LightlineModified()
         return ""
     endif
 endfunction
+
+if has("nvim")
+    tnoremap <Esc> <C-\><C-n>
+    tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+    tnoremap <A-h> <C-\><C-N><C-w>h
+    tnoremap <A-j> <C-\><C-N><C-w>j
+    tnoremap <A-k> <C-\><C-N><C-w>k
+    tnoremap <A-l> <C-\><C-N><C-w>l
+    inoremap <A-h> <C-\><C-N><C-w>h
+    inoremap <A-j> <C-\><C-N><C-w>j
+    inoremap <A-k> <C-\><C-N><C-w>k
+    inoremap <A-l> <C-\><C-N><C-w>l
+    nnoremap <A-h> <C-w>h
+    nnoremap <A-j> <C-w>j
+    nnoremap <A-k> <C-w>k
+    nnoremap <A-l> <C-w>l
+endif

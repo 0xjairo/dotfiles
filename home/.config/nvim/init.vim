@@ -2,18 +2,22 @@
 call plug#begin()
 
 Plug 'neomake/neomake'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+if has("win32")
+    Plug '~/.fzf/'
+else
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+endif
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'fs111/pydoc.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-commentary'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+Plug 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
@@ -30,20 +34,33 @@ Plug 'gosukiwi/vim-atom-dark'
 Plug 'itchyny/lightline.vim'
 
 if has("nvim")
-    " LanguageClient-neovim
-    Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
+    if has("win32")
+        " LanguageClient-neovim
+        Plug 'autozimu/LanguageClient-neovim', {
+            \ 'branch': 'next',
+            \ 'do': 'powershell -executionpolicy bypass -File install.ps1',
+            \ }
+    else
+        " LanguageClient-neovim
+        Plug 'autozimu/LanguageClient-neovim', {
+            \ 'branch': 'next',
+            \ 'do': 'bash install.sh',
+            \ }
+    endif
 
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     let g:LanguageClient_serverCommands = {
-        \ 'cpp': ['clangd-6.0'],
-        \ 'c': ['clangd-6.0'],
+        \ 'cpp': ['clangd'],
+        \ 'c': ['clangd'],
         \ 'python': ['~/.local/bin/pyls'],
         \ }
 
-    let g:LanguageClient_serverStderr = '/tmp/clangd.stderr'
+    if has("win32")
+        let g:LanguageClient_serverStderr = 'C:\Temp\clangd.stderr'
+    else
+        let g:LanguageClient_serverStderr = '/tmp/clangd.stderr'
+    endif
+
     let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
     let g:LanguageClient_settingsPath = '~/.config/nvim/settings.json'
     set completefunc=LanguageClient#complete
@@ -60,14 +77,13 @@ endif
 
 call plug#end()
 
+let g:neomake_logfile = 'C:\temp\neomake.log'
 if has("nvim")
     call deoplete#custom#source('LanguageClient',
                 \ 'min_pattern_length',
                 \ 2)
-    let g:deoplete#enable_at_startup = 1
-
     " auto run linting in normal mode with nvim only (async not supported in vim 7.4)
-    call neomake#configure#automake('nw', 1000)
+    call neomake#configure#automake('w', 1000)
 else
     " auto run linting on :write 
     call neomake#configure#automake('w')
@@ -223,7 +239,25 @@ command! -bang -nargs=* Rg
 
 " Status line
 """""""""""""
-set laststatus=2
+let s:hidden_all = 0
+function! ToggleHiddenAll()
+    if s:hidden_all  == 0
+        let s:hidden_all = 1
+        set noshowmode
+        set noruler
+        set laststatus=0
+        set noshowcmd
+    else
+        let s:hidden_all = 0
+        set showmode
+        set ruler
+        set laststatus=2
+        set showcmd
+    endif
+endfunction
+" shift-h to toggle hiding status bar
+nnoremap <S-h> :call ToggleHiddenAll()<CR>
+
 let g:lightline = {
     \ 'colorscheme': 'seoul256',
     \ 'active': {

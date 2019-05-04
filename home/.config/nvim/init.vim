@@ -143,6 +143,8 @@ set scrolloff=5
 set nocursorline
 set ignorecase
 set smartcase
+" :hardcopy options
+set printoptions=paper:letter
 
 set grepprg=rg\ --vimgrep
 if has("nvim")

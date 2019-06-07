@@ -41,6 +41,7 @@ if has("nvim")
         \ 'cpp': ['clangd-6.0'],
         \ 'c': ['clangd-6.0'],
         \ 'python': ['~/.local/bin/pyls'],
+        \ 'lua': ['~/.luarocks/bin/lua-lsp'],
         \ }
 
     let g:LanguageClient_serverStderr = '/tmp/clangd.stderr'
@@ -145,6 +146,7 @@ set ignorecase
 set smartcase
 " :hardcopy options
 set printoptions=paper:letter
+set eol " add new line to the end of the file
 
 set grepprg=rg\ --vimgrep
 if has("nvim")

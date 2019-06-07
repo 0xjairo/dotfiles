@@ -44,7 +44,6 @@ Plug 'morhetz/gruvbox'
 
 "syntax additions
 """"""""""""""""""
-Plug 'srec.vim'
 Plug 'digitaltoad/vim-jade'
 
 Plug 'scrooloose/syntastic'

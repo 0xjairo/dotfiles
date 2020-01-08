@@ -1,0 +1,42 @@
+UXTerm*faceName: Droid Sans Mono
+UXTerm*faceSize: 8
+!UXTerm*renderFont: true
+UXTerm*termName: xterm-256color
+
+! special
+UXTerm*.foreground:   #a8a19f
+UXTerm*.background:   #1b1918
+UXTerm*.cursorColor:  #a8a19f
+
+! black
+UXTerm*.color0:       #1b1918
+UXTerm*.color8:       #766e6b
+
+! red
+UXTerm*.color1:       #f22c40
+UXTerm*.color9:       #f22c40
+
+! green
+UXTerm*.color2:       #5ab738
+UXTerm*.color10:      #5ab738
+
+! yellow
+UXTerm*.color3:       #d5911a
+UXTerm*.color11:      #d5911a
+
+! blue
+UXTerm*.color4:       #407ee7
+UXTerm*.color12:      #407ee7
+
+! magenta
+UXTerm*.color5:       #6666ea
+UXTerm*.color13:      #6666ea
+
+! cyan
+UXTerm*.color6:       #00ad9c
+UXTerm*.color14:      #00ad9c
+
+! white
+UXTerm*.color7:       #a8a19f
+UXTerm*.color15:      #f1efee
+

@@ -53,6 +53,7 @@ if has("nvim")
         \ 'cpp': ['clangd'],
         \ 'c': ['clangd'],
         \ 'python': ['~/.local/bin/pyls'],
+        \ 'lua': ['~/.luarocks/bin/lua-lsp'],
         \ }
 
     if has("win32")
@@ -159,6 +160,9 @@ set scrolloff=5
 set nocursorline
 set ignorecase
 set smartcase
+" :hardcopy options
+set printoptions=paper:letter
+set eol " add new line to the end of the file
 
 set grepprg=rg\ --vimgrep
 if has("nvim")

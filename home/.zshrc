@@ -59,7 +59,9 @@ esac
 autoload -U compinit && compinit
 
 local ret_status="%(?::[%?])"
-local cwd="%~"
+# truncate paths longer than 50 characters and replace with "..."
+# http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Conditional-Substrings-in-Prompts
+local cwd="%50<...<%~%<<"
 local userhost="%n@%m "
 local timenow="%D{%H:%M:%S} "
 local promptchar="$"

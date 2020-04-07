@@ -1,94 +1,34 @@
 "" .nvimrc
 call plug#begin()
-
-Plug 'neomake/neomake'
 if has("win32")
-    Plug '~/.fzf/'
-else
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    "Plug '~/tools/fzf'
+    Plug '~/scoop/apps/fzf/current'
 endif
-Plug 'junegunn/fzf.vim'
+Plug 'GutenYe/json5.vim'
+Plug 'SirVer/ultisnips'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'honza/vim-snippets'
+Plug 'equalsraf/neovim-gui-shim' " neovim-qt shim plugin
 Plug 'fs111/pydoc.vim'
+Plug 'honza/vim-snippets'
+Plug 'itchyny/lightline.vim' "status line
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-commentary'
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-Plug 'SirVer/ultisnips'
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-
-" neovim-qt shim plugin
-Plug 'equalsraf/neovim-gui-shim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 
 " colorschemes
 Plug 'morhetz/gruvbox'
 Plug 'chriskempson/base16-vim'
 Plug 'gosukiwi/vim-atom-dark'
-
-"status line
-Plug 'itchyny/lightline.vim'
-
-if has("nvim")
-    if has("win32")
-        " LanguageClient-neovim
-        Plug 'autozimu/LanguageClient-neovim', {
-            \ 'branch': 'next',
-            \ 'do': 'powershell -executionpolicy bypass -File install.ps1',
-            \ }
-    else
-        " LanguageClient-neovim
-        Plug 'autozimu/LanguageClient-neovim', {
-            \ 'branch': 'next',
-            \ 'do': 'bash install.sh',
-            \ }
-    endif
-
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    let g:LanguageClient_serverCommands = {
-        \ 'cpp': ['clangd'],
-        \ 'c': ['clangd'],
-        \ 'python': ['~/.local/bin/pyls'],
-        \ 'lua': ['~/.luarocks/bin/lua-lsp'],
-        \ }
-
-    if has("win32")
-        let g:LanguageClient_serverStderr = 'C:\Temp\clangd.stderr'
-    else
-        let g:LanguageClient_serverStderr = '/tmp/clangd.stderr'
-    endif
-
-    let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
-    let g:LanguageClient_settingsPath = '~/.config/nvim/settings.json'
-    set completefunc=LanguageClient#complete
-    set formatexpr=LanguageClient_textDocument_rangeFormatting()
-
-    nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
-    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-    nnoremap <silent> gr :call LanguageClient#textDocument_references()<CR>
-    nnoremap <silent> gs :call LanguageClient#textDocument_documentSymbol()<CR>
-    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-
-    nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-endif
-
 call plug#end()
+"
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
-let g:neomake_logfile = 'C:\temp\neomake.log'
-if has("nvim")
-    call deoplete#custom#source('LanguageClient',
-                \ 'min_pattern_length',
-                \ 2)
-    " auto run linting in normal mode with nvim only (async not supported in vim 7.4)
-    call neomake#configure#automake('w', 1000)
-else
-    " auto run linting on :write 
-    call neomake#configure#automake('w')
-endif
 
 if has("gui_vimr")
     colorscheme base16-onedark
@@ -149,37 +89,40 @@ augroup END
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set nohlsearch " don't highlight search matches
-set nowrap
-set number
-" show invisible characters
-set listchars=tab:▸\ ,eol:¬,trail:·,space:·
-set nolist " show tabs and trailing spaces
-set hidden " allow switching out of unsaved buffers (and keeps undo when switching buffers)
-set scrolloff=5
-set nocursorline
-set ignorecase
-set smartcase
-" :hardcopy options
-set printoptions=paper:letter
+
 set eol " add new line to the end of the file
+set hidden " allow switching out of unsaved buffers (and keeps undo when switching buffers)
+set ignorecase
+set listchars=tab:▸\ ,eol:¬,trail:·,space:· " show invisible characters
+set mouse=a
+set nobackup
+set nocursorline
+set nohlsearch " don't highlight search matches
+set nolist " don't show tabs and trailing spaces
+set nowrap
+set nowritebackup
+set number
+set printoptions=paper:letter " :hardcopy options
+set relativenumber
+set scrolloff=5
+set shortmess+=c
+set signcolumn=yes
+set smartcase
+set updatetime=300
+set wildmode=longest,list,full " cmdline completion to complete as much as possible
+set wildmenu
 
 set grepprg=rg\ --vimgrep
 if has("nvim")
     set clipboard+=unnamedplus
+    set colorcolumn=80 " line at column 80
     set inccommand=split  " live :%s substitutioni preview in split
+    set title " show file title in toolbar
 else
-    set clipboard+=unnamed
     " vim only options
-    set backupdir=~/.vim/backup//
-    set directory=~/.vim/swap//
-    set undodir=~/.vim/undo//
+    set clipboard+=unnamed
 endif
-set mouse=a
 
-" cmdline completion to complete as much as possible
-set wildmode=longest,list,full
-set wildmenu
 
 " map the command :wq to :w to avoid accidentaly write-quits
 " to write-quit use :x
@@ -228,17 +171,25 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
 
-let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+if empty($FZF_DEFAULT_OPTS)
+    let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+endif
 
+if empty($FZF_DEFAULT_COMMAND)
+    let $FZF_DEFAULT_COMMAND = 'rg --files'
+endif
+
+let g:netrw_banner = 0 " hide banner
+let g:netrw_browse_split = 4 " open files in previous window
 let g:netrw_preview = 1 " preview file with 'p' in a direcetory listing
-let g:netrw_liststyle = 3
-let g:netrw_winsize = 20
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \ 'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \ <bang>0 ? fzf#vim#with_preview('up:60%')
-  \         : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \ <bang>0)
+let g:netrw_liststyle = 3 " tree view
+let g:netrw_winsize = 20 " width of netrw window (when opened with :Vexplore or :Sexplore
+"command! -bang -nargs=* Rg
+"  \ call fzf#vim#grep(
+"  \ 'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+"  \ <bang>0 ? fzf#vim#with_preview('up:60%')
+"  \         : fzf#vim#with_preview('right:50%:hidden', '?'),
+"  \ <bang>0)
 
 
 " Status line

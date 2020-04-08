@@ -16,12 +16,14 @@ Plug 'junegunn/fzf.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-surround'
 
 " colorschemes
 Plug 'morhetz/gruvbox'
 Plug 'chriskempson/base16-vim'
 Plug 'gosukiwi/vim-atom-dark'
+
 call plug#end()
 "
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.

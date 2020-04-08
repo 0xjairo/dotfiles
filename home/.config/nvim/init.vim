@@ -1,8 +1,9 @@
-"" .nvimrc
 call plug#begin()
 if has("win32")
     "Plug '~/tools/fzf'
     Plug '~/scoop/apps/fzf/current'
+else
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 endif
 Plug 'GutenYe/json5.vim'
 Plug 'SirVer/ultisnips'
@@ -11,7 +12,6 @@ Plug 'equalsraf/neovim-gui-shim' " neovim-qt shim plugin
 Plug 'fs111/pydoc.vim'
 Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim' "status line
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-commentary'
@@ -29,12 +29,11 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
-
 if has("gui_vimr")
     colorscheme base16-onedark
 elseif has("nvim")
     set termguicolors
-    colorscheme base16-monokai
+    colorscheme base16-onedark
 else
     set background=dark
     colorscheme pablo "gruvbox
@@ -44,6 +43,7 @@ endif
 au BufNewFile,BufRead *.cmd set filetype=asm
 au BufNewFile,BufRead *.cla set filetype=c
 au BufNewFile,BufRead SConstruct,SConscript set filetype=python
+au BufNewFile,BufRead *.xacro set filetype=xml
 
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying strange source code.
@@ -121,6 +121,11 @@ if has("nvim")
 else
     " vim only options
     set clipboard+=unnamed
+    set clipboard+=unnamed
+    "" vim only options
+    "set backupdir=~/.vim/backup//
+    "set directory=~/.vim/swap//
+    "set undodir=~/.vim/undo//
 endif
 
 
@@ -184,13 +189,6 @@ let g:netrw_browse_split = 4 " open files in previous window
 let g:netrw_preview = 1 " preview file with 'p' in a direcetory listing
 let g:netrw_liststyle = 3 " tree view
 let g:netrw_winsize = 20 " width of netrw window (when opened with :Vexplore or :Sexplore
-"command! -bang -nargs=* Rg
-"  \ call fzf#vim#grep(
-"  \ 'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-"  \ <bang>0 ? fzf#vim#with_preview('up:60%')
-"  \         : fzf#vim#with_preview('right:50%:hidden', '?'),
-"  \ <bang>0)
-
 
 " Status line
 """""""""""""

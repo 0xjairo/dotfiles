@@ -14,12 +14,12 @@ export HISTORY_IGNORE="(ls|cd|cd ..)"
 #########
 if [ "`uname`" = "Darwin" ]; then
     alias ls='ls -G'
-else
-    alias ls='ls --color=auto'
 fi
 alias ll='ls -alF'
 alias la='ls -G -A'
 alias l='ls -G -CF'
+
+alias scons="python3 `which scons`"
 
 
 # vi mode
@@ -32,6 +32,7 @@ export KEYTIMEOUT=1
 if type rg >/dev/null; then
     # use ripgrep to filter with fzf
     export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!build/*" --glob "!*.pyc"'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
 # load fzf
@@ -59,16 +60,17 @@ esac
 autoload -U compinit && compinit
 
 local ret_status="%(?::[%?])"
-# truncate paths longer than 50 characters and replace with "..."
+# truncate paths longer than 30 characters and replace with "..."
 # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Conditional-Substrings-in-Prompts
-local cwd="%50<...<%~%<<"
+#local cwd="%30<...<%~%<<"
+local cwd="%1~" # show only current directory (no parents)
 local userhost="%n@%m "
 local timenow="%D{%H:%M:%S} "
 local promptchar="$"
 if [ "$color_prompt" = yes ]; then
     # logic cof return status. If zero, print nothing (stuff between first ::
     # if it's non-zero, print stuff between : and )
-    local ret_status="%(?:: %F{red}[return:%?])%f"
+    local ret_status="%(?:: %F{red}[%?])%f"
     local cwd="%F{62}$cwd%f"
     local userhost="%F{242}$userhost%f"
     local timenow="%F{242}$timenow%f"
@@ -86,3 +88,5 @@ export REPORTTIME=3
 
 [ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
 
+
+source /home/jairo/.config/broot/launcher/bash/br

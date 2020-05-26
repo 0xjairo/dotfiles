@@ -12,12 +12,18 @@ export HISTORY_IGNORE="(ls|cd|cd ..)"
 
 # aliases
 #########
-if [ "`uname`" = "Darwin" ]; then
-    alias ls='ls -G'
+if type exa >/dev/null; then
+    alias ll='exa -l'
+    alias la='exa -al'
+    alias l='exa'
+else
+    if [ "`uname`" = "Darwin" ]; then
+        alias ls='ls -G'
+    fi
+    alias ll='ls -alF'
+    alias la='ls -G -A'
+    alias l='ls -G -CF'
 fi
-alias ll='ls -alF'
-alias la='ls -G -A'
-alias l='ls -G -CF'
 
 alias scons="python3 `which scons`"
 

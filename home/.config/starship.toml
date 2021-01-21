@@ -1,19 +1,27 @@
-prompt_order = [
-    "username",
-    "hostname",
-    "directory",
-    "git_branch",
-    "git_commit",
-    "git_state",
-    "git_status",
-    "hg_branch",
-    "memory_usage",
-    "cmd_duration",
-    "jobs",
-    "battery",
-    "time",
-    "character",
-    ]
+format = """
+$username\
+$hostname\
+$shlvl\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$cmake\
+$cmd_duration\
+$line_break\
+$jobs\
+$time\
+$status\
+$character"""
+
+[time]
+disabled = false
+time_format = "%F %T"
 
 [git_branch]
 symbol = ""
+
+[directory]
+truncate_to_repo = true
+truncation_length = 5

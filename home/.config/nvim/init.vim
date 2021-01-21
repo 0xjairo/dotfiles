@@ -30,6 +30,11 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 if has("nvim")
     set termguicolors
     colorscheme base16-default-dark
+    if len($TMUX) > 0
+         colorscheme base16-default-dark
+     else
+        colorscheme base16-onedark
+    endif
 else
     set background=dark
     colorscheme pablo

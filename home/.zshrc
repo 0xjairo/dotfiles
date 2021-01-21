@@ -13,6 +13,7 @@ export HISTORY_IGNORE="(ls|cd|cd ..)"
 # aliases
 #########
 if type exa >/dev/null; then
+    alias ls='exa'
     alias ll='exa -l'
     alias la='exa -al'
     alias l='exa'
@@ -24,8 +25,6 @@ else
     alias la='ls -G -A'
     alias l='ls -G -CF'
 fi
-
-alias scons="python3 `which scons`"
 
 
 # vi mode
@@ -65,25 +64,29 @@ esac
 # git/svn info in prompt
 autoload -U compinit && compinit
 
-local ret_status="%(?::[%?])"
-# truncate paths longer than 30 characters and replace with "..."
-# http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Conditional-Substrings-in-Prompts
-#local cwd="%30<...<%~%<<"
-local cwd="%1~" # show only current directory (no parents)
-local userhost="%n@%m "
-local timenow="%D{%H:%M:%S} "
-local promptchar="$"
-if [ "$color_prompt" = yes ]; then
-    # logic cof return status. If zero, print nothing (stuff between first ::
-    # if it's non-zero, print stuff between : and )
-    local ret_status="%(?:: %F{red}[%?])%f"
-    local cwd="%F{62}$cwd%f"
-    local userhost="%F{242}$userhost%f"
-    local timenow="%F{242}$timenow%f"
-    local promptchar="%F{magenta}%(!.#.$promptchar)%f"
-fi
+if type starship >/dev/null; then
+    eval "$(starship init zsh)" 
+else
+    local ret_status="%(?::[%?])"
+    # truncate paths longer than 30 characters and replace with "..."
+    # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Conditional-Substrings-in-Prompts
+    #local cwd="%30<...<%~%<<"
+    local cwd="%1~" # show only current directory (no parents)
+    local userhost="%n@%m "
+    local timenow="%D{%H:%M:%S} "
+    local promptchar="$"
+    if [ "$color_prompt" = yes ]; then
+        # logic cof return status. If zero, print nothing (stuff between first ::
+        # if it's non-zero, print stuff between : and )
+        local ret_status="%(?:: %F{red}[%?])%f"
+        local cwd="%F{62}$cwd%f"
+        local userhost="%F{242}$userhost%f"
+        local timenow="%F{242}$timenow%f"
+        local promptchar="%F{magenta}%(!.#.$promptchar)%f"
+    fi
 
-PROMPT='$userhost$timenow$cwd $promptchar$ret_status '
+    PROMPT='$userhost$timenow$cwd $promptchar$ret_status '
+fi
 
 # print time execution information for commands taking longer than this
 export REPORTTIME=3

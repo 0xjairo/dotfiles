@@ -7,21 +7,33 @@ $git_branch\
 $git_commit\
 $git_state\
 $git_status\
-$cmake\
+$hg_branch\
+$memory_usage\
 $cmd_duration\
 $line_break\
 $jobs\
+$battery\
 $time\
 $status\
 $character"""
 
 [time]
 disabled = false
-time_format = "%F %T"
+time_format = "%T"
+format = "[$time]($style) "
 
 [git_branch]
-symbol = ""
+symbol = "g:"
+format = "[$symbol$branch]($style)"
 
 [directory]
 truncate_to_repo = true
 truncation_length = 5
+
+[hostname]
+format = "[$hostname]($style) "
+style = "bold fg:242"
+
+[username]
+format = "[$user@]($style)"
+style_user = "bold fg:242"

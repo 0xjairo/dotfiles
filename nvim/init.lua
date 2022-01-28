@@ -5,9 +5,6 @@ local env = vim.env
 
 g.mapleader = " "
 
-opt.number = true
-opt.hlsearch = false
-opt.cursorline = true
 -- use spaces instead of tabs
 opt.tabstop=4
 opt.shiftwidth=4
@@ -16,6 +13,34 @@ opt.expandtab = true
 opt.list = true
 -- Wrap lines
 opt.linebreak = true -- wrap lines on word boundaries
+
+opt.autoread = true -- reread changed files without asking
+opt.autowrite = true -- save before :next, :make, etc
+opt.eol = true -- add new line to the end of the file
+opt.fileformats = 'unix,dos,mac' -- prefer unix over windows over OS 9 formats
+opt.hidden = true -- allow switching out of unsaved buffers (and keeps undo when switching buffers)
+opt.ignorecase = true
+opt.listchars='tab:▸\\ ,eol:¬,trail:·,space:·' -- show invisible characters
+opt.mouse='a'
+opt.backup = false
+opt.cursorline = false
+opt.errorbells = false
+opt.hlsearch = false -- don't highlight search matches
+opt.list = false -- don't show tabs and trailing spaces
+opt.swapfile = false
+opt.wrap = false
+opt.writebackup = false
+opt.number = true
+opt.printoptions = 'paper:letter' -- :hardcopy options
+opt.ruler = true-- show line and column all th etime
+opt.scrolloff = 5
+opt.shortmess:append('c')
+opt.signcolumn='yes'
+opt.smartcase = true
+opt.updatetime=300
+opt.virtualedit='block' -- allow to edit past the end of the line, pads with spaces
+opt.wildmode='longest,list,full' -- cmdline completion to complete as much as possible
+opt.wildmenu=true
 
 vim.cmd [[packadd packer.nvim]]
 require('packer').startup(function(use)
@@ -54,6 +79,8 @@ require'nvim-tree'.setup {
         custom = {'.git', 'node_modules', '.cache', 'build*/'}
     }
 }
+
+
 
 -- from https://github.com/neovim/nvim-lspconfig#Keybindings-and-completion
 local lspconfig = require('lspconfig')
@@ -149,14 +176,38 @@ cmp.setup {
   }
 }
 
+-- highlight on yank
+vim.cmd([[au TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=150, on_visual=true}]])
+
+-- set filetype based on filename/extension
+vim.cmd([[au BufNewFile,BufRead *.cmd set filetype=asm]])
+vim.cmd([[au BufNewFile,BufRead *.cla set filetype=c]])
+vim.cmd([[au BufNewFile,BufRead SConstruct,SConscript set filetype=python]])
+vim.cmd([[au BufNewFile,BufRead *.xacro set filetype=xml]])
+vim.cmd([[au FocusLost * :wa " save all files on focus out]])
+
 local function map(mode, lhs, rhs, opts)
   local options = {noremap = true}
   if opts then options = vim.tbl_extend('force', options, opts) end
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+-- windows only settings
+if vim.fn.has('win32') == 1 then
+    -- AAAAAAGGGGGHHHHH
+    map('n', '<C-z>','<nop>')
+
+    -- use powershell
+    opt.shell = 'powershell.exe'
+    opt.shellquote = ''
+    opt.shellpipe = '|'
+    opt.shellxquote = '|'
+    opt.shellcmdflag='-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
+    opt.shellredir='| Out-File -Encoding UTF8'
+end
+
 map('n', ';', ':Telescope buffers<cr>')
-map('n', '<leader>ff', ':Telescope find_files<cr>')
+map('n', '<C-p>', ':Telescope find_files<cr>')
 map('n', '<leader>fg', ':Telescope live_grep<cr>')
 map('n', '<leader>fh', ':Telescope help_tags<cr>')
 map('n', '<leader>fl', ':Telescope git_branches<CR>')
@@ -179,19 +230,8 @@ map('n', '<Leader>n', ':cnext<CR>')
 map('n', '<Leader>t', ':%s/\\s\\+$//e<CR>')
 -- toggle line wrap
 map('n', '<Leader>r', ':set wrap!<CR>')
-
-if vim.fn.has('win32') == 1 then
-    -- AAAAAAGGGGGHHHHH
-    map('n', '<C-z>','<nop>')
-
-    -- use powershell
-    opt.shell = 'powershell.exe'
-    opt.shellquote = ''
-    opt.shellpipe = '|'
-    opt.shellxquote = '|'
-    opt.shellcmdflag='-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
-    opt.shellredir='| Out-File -Encoding UTF8'
-end
+-- nvim-tree
+map('n', '<C-n>', ':NvimTreeToggle<CR>')
 
 -- navigate windows with hjkl
 -- in terminal mode
@@ -209,3 +249,4 @@ map('n', '<A-h>', '<C-w>h')
 map('n', '<A-j>', '<C-w>j')
 map('n', '<A-k>', '<C-w>k')
 map('n', '<A-l>', '<C-w>l')
+

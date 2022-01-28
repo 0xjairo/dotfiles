@@ -5,6 +5,7 @@ local env = vim.env
 
 g.mapleader = " "
 
+opt.termguicolors = true
 -- use spaces instead of tabs
 opt.tabstop=4
 opt.shiftwidth=4

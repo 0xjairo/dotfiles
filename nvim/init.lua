@@ -1,7 +1,7 @@
 local cmd = vim.cmd
 local g = vim.g
 local opt = vim.opt
-
+local env = vim.env
 
 g.mapleader = " "
 
@@ -14,6 +14,8 @@ opt.shiftwidth=4
 opt.expandtab = true
 --opt.listchars="tab:▸\ ,eol:¬,trail:·,space:·" -- show invisible characters
 opt.list = true
+-- Wrap lines
+opt.linebreak = true -- wrap lines on word boundaries
 
 vim.cmd [[packadd packer.nvim]]
 require('packer').startup(function(use)
@@ -124,6 +126,9 @@ require'nvim-treesitter.configs'.setup {
 -- gitsigns
 require('gitsigns').setup()
 
+-- status line
+require('feline').setup({})
+
 -- completion
 local cmp = require'cmp'
 cmp.setup {
@@ -150,10 +155,57 @@ local function map(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+map('n', ';', ':Telescope buffers<cr>')
 map('n', '<leader>ff', ':Telescope find_files<cr>')
 map('n', '<leader>fg', ':Telescope live_grep<cr>')
-map('n', '<leader>fb', ':Telescope buffers<cr>')
 map('n', '<leader>fh', ':Telescope help_tags<cr>')
 map('n', '<leader>fl', ':Telescope git_branches<CR>')
 map('n', '<leader>fc', ':Telescope git_commits<CR>')
 map('n', '<leader>fs', ':Telescope lsp_document_symbols<CR>')
+
+-- previous buffer
+map('n', '<Leader><Tab>', ':b#<CR>')
+-- toggle cursorline
+map('n', '<Leader>c', ':set cursorline!<CR>')
+-- delete buffer without closing window
+map('n', '<Leader>d', ':b# <bar> :bd#<CR>')
+-- toggle hightlight search matches
+map('n', '<Leader>l', ':set hlsearch!<CR>')
+-- cd to directory containing file
+map('n', '<Leader>~', ':cd %:p:h<CR>')
+-- cnext
+map('n', '<Leader>n', ':cnext<CR>')
+-- trim trailing white space from lines in file
+map('n', '<Leader>t', ':%s/\\s\\+$//e<CR>')
+-- toggle line wrap
+map('n', '<Leader>r', ':set wrap!<CR>')
+
+if vim.fn.has('win32') == 1 then
+    -- AAAAAAGGGGGHHHHH
+    map('n', '<C-z>','<nop>')
+
+    -- use powershell
+    opt.shell = 'powershell.exe'
+    opt.shellquote = ''
+    opt.shellpipe = '|'
+    opt.shellxquote = '|'
+    opt.shellcmdflag='-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
+    opt.shellredir='| Out-File -Encoding UTF8'
+end
+
+-- navigate windows with hjkl
+-- in terminal mode
+map('t', '<A-h>', '<C-\\><C-N><C-w>h')
+map('t', '<A-j>', '<C-\\><C-N><C-w>j')
+map('t', '<A-k>', '<C-\\><C-N><C-w>k')
+map('t', '<A-l>', '<C-\\><C-N><C-w>l')
+-- in insert mode
+map('i', '<A-h>', '<C-\\><C-N><C-w>h')
+map('i', '<A-j>', '<C-\\><C-N><C-w>j')
+map('i', '<A-k>', '<C-\\><C-N><C-w>k')
+map('i', '<A-l>', '<C-\\><C-N><C-w>l')
+-- in normal mode
+map('n', '<A-h>', '<C-w>h')
+map('n', '<A-j>', '<C-w>j')
+map('n', '<A-k>', '<C-w>k')
+map('n', '<A-l>', '<C-w>l')

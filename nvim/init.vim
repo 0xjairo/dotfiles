@@ -16,6 +16,7 @@ Plug 'rktjmp/lush.nvim'
 Plug 'shaunsingh/moonlight.nvim'
 Plug 'shaunsingh/nord.nvim'
 Plug 'shaunsingh/solarized.nvim'
+Plug 'mhartington/oceanic-next'
 
 " status line
 Plug 'nvim-lua/plenary.nvim'
@@ -24,9 +25,6 @@ Plug 'lewis6991/gitsigns.nvim'
 
 " treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
-" file viewer
-Plug 'kyazdani42/nvim-tree.lua'
 
 " completion
 Plug 'hrsh7th/nvim-cmp'
@@ -43,6 +41,7 @@ Plug 'othree/xml.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-surround'
+Plug 'ntpeters/vim-better-whitespace'
 
 call plug#end()
 
@@ -58,8 +57,6 @@ call plug#end()
 nnoremap <C-n> :NvimTreeToggle<CR>
 nnoremap <leader>r :NvimTreeRefresh<CR>
 nnoremap <leader>n :NvimTreeFindFile<CR>
-let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ]
-let g:nvim_tree_gitignore = 1
 let g:nvim_tree_show_icons = {
     \ 'git': 0,
     \ 'folders': 1,
@@ -97,9 +94,9 @@ let g:nvim_tree_icons = {
     \ }
 
 
-"colorscheme darcula-solid
-colorscheme moonlight
 set termguicolors
+"colorscheme darcula-solid
+colorscheme OceanicNext
 
 set number
 set nohlsearch
@@ -111,24 +108,31 @@ set expandtab
 set listchars=tab:▸\ ,eol:¬,trail:·,space:· " show invisible characters
 set list
 
-" from https://github.com/neovim/nvim-lspconfig#Keybindings-and-completion
 lua << EOF
+
+require'nvim-tree'.setup {
+    filters = {
+        custom = {'.git', 'node_modules', '.cache', 'build*/'}
+    }
+}
+
+-- from https://github.com/neovim/nvim-lspconfig#Keybindings-and-completion
 local lspconfig = require('lspconfig')
 
-if not lspconfig.rust_hdl then
-  require'lspconfig/configs'.rust_hdl = {
-    default_config = {
-      cmd = {"vhdl_ls"};
-      filetypes = { "vhdl" };
-      root_dir = function(fname)
-        return lspconfig.util.root_pattern('vhdl_ls.toml')(fname)
-      end;
-      settings = {};
-    };
-  }
-end
+-- if not lspconfig.rust_hdl then
+--   require'lspconfig/configs'.rust_hdl = {
+--     default_config = {
+--       cmd = {"vhdl_ls"};
+--       filetypes = { "vhdl" };
+--       root_dir = function(fname)
+--         return lspconfig.util.root_pattern('vhdl_ls.toml')(fname)
+--       end;
+--       settings = {};
+--     };
+--   }
+-- end
 
--- Use an on_attach function to only map the following keys 
+-- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -164,7 +168,8 @@ end
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 --local servers = { "pyright", "rust_analyzer", "tsserver" }
-local servers = { "clangd", "pylsp", "rust_hdl"}
+--local servers = { "clangd", "pylsp", "rust_hdl", "rust_analyzer"}
+local servers = { "clangd", "pylsp", "rust_analyzer"}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup { on_attach = on_attach }
 end
@@ -172,7 +177,7 @@ end
 -- tree-sitter
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  ignore_install = { "javascript" }, -- List of parsers to ignore installing
+  ignore_install = { "php", "tlaplus" }, -- List of parsers to ignore installing
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = {}, --{ "c", "rust" },  -- list of language that will be disabled
@@ -213,7 +218,7 @@ au FocusLost * :wa " save all files on focus out
 " Highlight all instances of word under cursor, when idle.
 " Useful when studying unfamiliar source code.
 " Type z/ to toggle highlighting on/off.
-nnoremap z/ :call AutoHighlightToggle()<CR>
+nnoremap <Leader>/ :call AutoHighlightToggle()<CR>
 
 function! MatchCurWord()
     let l:curword =  escape(expand('<cword>'), '/\')
@@ -298,6 +303,9 @@ let mapleader=" "
 nnoremap <c-p> :Files<CR>
 nmap ; :Buffers<CR>
 nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
+vnoremap <silent> <Leader>rg y <bar> :Rg "<C-R>=escape(@",'/\"')"<CR><CR>
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
 if has("win32")
     " Disable preview window
     let g:fzf_preview_window = []
@@ -345,9 +353,6 @@ endif
 if empty($FZF_DEFAULT_COMMAND)
     let $FZF_DEFAULT_COMMAND = 'rg --files'
 endif
-
-let g:netrw_banner = 0 " hide banner
-let g:netrw_liststyle = 3 " tree view
 
 set noshowmode
 set ruler

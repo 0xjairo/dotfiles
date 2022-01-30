@@ -42,6 +42,8 @@ opt.updatetime=300
 opt.virtualedit='block' -- allow to edit past the end of the line, pads with spaces
 opt.wildmode='longest,list,full' -- cmdline completion to complete as much as possible
 opt.wildmenu=true
+opt.splitright = true
+opt.splitbelow = true
 
 vim.cmd [[packadd packer.nvim]]
 require('packer').startup(function(use)
@@ -250,4 +252,33 @@ map('n', '<A-h>', '<C-w>h')
 map('n', '<A-j>', '<C-w>j')
 map('n', '<A-k>', '<C-w>k')
 map('n', '<A-l>', '<C-w>l')
+
+
+-- copied from
+-- https://github.com/David-Kunz/vim/blob/f5e21eed15094532b07378ba3f76839ce3b1f37d/init.lua
+_G.term_buf_of_tab = _G.term_buf_of_tab or {}
+_G.term_buf_max_nmb = _G.term_buf_max_nmb or 0
+_G.toggle_terminal = function()
+  local cur_tab = vim.api.nvim_get_current_tabpage()
+  local term_buf = term_buf_of_tab[cur_tab]
+  if term_buf ~= nil then
+   local cur_buf = vim.api.nvim_get_current_buf()
+   if cur_buf == term_buf then
+     vim.cmd('q')
+   else
+     vim.cmd('vert sb' .. term_buf)
+     vim.cmd(':startinsert')
+   end
+  else
+    vim.cmd('vs | terminal')
+    local cur_buf = vim.api.nvim_get_current_buf()
+    _G.term_buf_max_nmb = _G.term_buf_max_nmb + 1
+    vim.api.nvim_buf_set_name(cur_buf, "Terminal " .. _G.term_buf_max_nmb)
+    table.insert(term_buf_of_tab, cur_tab, cur_buf)
+    vim.cmd(':startinsert')
+  end
+end
+map('n', '<c-`>', ':lua toggle_terminal()<CR>')
+map('i', '<c-`>', '<ESC>:lua toggle_terminal()<CR>')
+map('t', '<c-`>', '<c-\\><c-n>:lua toggle_terminal()<CR>')
 

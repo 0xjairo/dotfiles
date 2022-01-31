@@ -60,8 +60,8 @@ require('packer').startup(function(use)
     use 'nvim-telescope/telescope.nvim'
     -- status line
     use 'nvim-lua/plenary.nvim'
-    use 'famiu/feline.nvim'
     use 'lewis6991/gitsigns.nvim'
+    use 'nvim-lualine/lualine.nvim'
 
     -- completion
     use 'hrsh7th/nvim-cmp'
@@ -72,10 +72,11 @@ require('packer').startup(function(use)
 
     -- colorscheme
     use 'mhartington/oceanic-next'
+    use 'bluz71/vim-moonfly-colors'
   end
 )
 
-vim.cmd 'colorscheme OceanicNext'
+vim.cmd 'colorscheme moonfly'
 
 require'nvim-tree'.setup {
     filters = {
@@ -157,7 +158,20 @@ require'nvim-treesitter.configs'.setup {
 require('gitsigns').setup()
 
 -- status line
-require('feline').setup({})
+require('lualine').setup({
+  options = {
+    component_separators = {'', ''},
+    --section_separators = {'', ''},
+  },
+  sections = {
+    lualine_a = { 'mode' },
+    lualine_b = { 'branch', 'diff', 'diagnostics'},
+    lualine_c = {{'filename', path=1} },
+    lualine_x = { 'encoding', 'fileformat', 'filetype'},
+    lualine_y = { 'progress' },
+    lualine_z = { 'location' }
+  },
+})
 
 -- completion
 local cmp = require'cmp'
@@ -254,7 +268,7 @@ map('n', '<A-k>', '<C-w>k')
 map('n', '<A-l>', '<C-w>l')
 
 
--- copied from
+-- modified from
 -- https://github.com/David-Kunz/vim/blob/f5e21eed15094532b07378ba3f76839ce3b1f37d/init.lua
 _G.term_buf_of_tab = _G.term_buf_of_tab or {}
 _G.term_buf_max_nmb = _G.term_buf_max_nmb or 0
@@ -266,11 +280,11 @@ _G.toggle_terminal = function()
    if cur_buf == term_buf then
      vim.cmd('q')
    else
-     vim.cmd('vert sb' .. term_buf)
+     vim.cmd('sb' .. term_buf)
      vim.cmd(':startinsert')
    end
   else
-    vim.cmd('vs | terminal')
+    vim.cmd('split | terminal')
     local cur_buf = vim.api.nvim_get_current_buf()
     _G.term_buf_max_nmb = _G.term_buf_max_nmb + 1
     vim.api.nvim_buf_set_name(cur_buf, "Terminal " .. _G.term_buf_max_nmb)
@@ -278,7 +292,7 @@ _G.toggle_terminal = function()
     vim.cmd(':startinsert')
   end
 end
-map('n', '<c-`>', ':lua toggle_terminal()<CR>')
-map('i', '<c-`>', '<ESC>:lua toggle_terminal()<CR>')
-map('t', '<c-`>', '<c-\\><c-n>:lua toggle_terminal()<CR>')
+map('n', '<a-`>', ':lua toggle_terminal()<CR>')
+map('i', '<a-`>', '<ESC>:lua toggle_terminal()<CR>')
+map('t', '<a-`>', '<c-\\><c-n>:lua toggle_terminal()<CR>')
 

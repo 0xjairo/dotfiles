@@ -134,7 +134,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
 end
@@ -276,6 +276,20 @@ map('n', '<A-j>', '<C-w>j')
 map('n', '<A-k>', '<C-w>k')
 map('n', '<A-l>', '<C-w>l')
 
+
+-- toggle virtual text (inline lsp diagnostics)
+_G.lsp_diagnostics_enabled = true
+_G.toggle_lsp_diagnostics_virtual_text = function()
+    if _G.lsp_diagnostics_enabled then
+        _G.lsp_diagnostics_enabled = false;
+    else
+        _G.lsp_diagnostics_enabled = true;
+    end
+    vim.diagnostic.config{virtual_text=_G.lsp_diagnostics_enabled}
+end
+
+-- cd to directory containing file
+map('n', '<Leader>v', ':lua toggle_lsp_diagnostics_virtual_text()<CR>')
 
 -- modified from
 -- https://github.com/David-Kunz/vim/blob/f5e21eed15094532b07378ba3f76839ce3b1f37d/init.lua

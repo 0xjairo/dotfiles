@@ -73,6 +73,10 @@ require('packer').startup(function(use)
     -- colorscheme
     use 'mhartington/oceanic-next'
     use 'bluz71/vim-moonfly-colors'
+
+    -- git
+    use 'tpope/vim-fugitive'
+    use 'sindrets/diffview.nvim'
   end
 )
 
@@ -139,7 +143,7 @@ end
 -- map buffer local keybindings when the language server attaches
 --local servers = { "pyright", "rust_analyzer", "tsserver" }
 --local servers = { "clangd", "pylsp", "rust_hdl", "rust_analyzer"}
-local servers = { "clangd", "pylsp", "rust_analyzer"}
+local servers = { "clangd", "pylsp", "rust_analyzer", "tsserver"}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup { on_attach = on_attach }
 end
@@ -155,7 +159,9 @@ require'nvim-treesitter.configs'.setup {
 }
 
 -- gitsigns
-require('gitsigns').setup()
+require('gitsigns').setup({
+    current_line_blame = true
+})
 
 -- status line
 require('lualine').setup({
@@ -230,6 +236,7 @@ map('n', '<leader>fh', ':Telescope help_tags<cr>')
 map('n', '<leader>fl', ':Telescope git_branches<CR>')
 map('n', '<leader>fc', ':Telescope git_commits<CR>')
 map('n', '<leader>fs', ':Telescope lsp_document_symbols<CR>')
+map('n', '<leader>rg', ':Telescope grep_string<CR>')
 
 -- previous buffer
 map('n', '<Leader><Tab>', ':b#<CR>')
@@ -277,10 +284,14 @@ _G.term_buf_max_nmb = _G.term_buf_max_nmb or 0
 _G.toggle_terminal = function()
   local cur_tab = vim.api.nvim_get_current_tabpage()
   local term_buf = term_buf_of_tab[cur_tab]
-  if term_buf ~= nil then
+  if term_buf ~= nil and vim.api.nvim_buf_is_valid(term_buf) then
    local cur_buf = vim.api.nvim_get_current_buf()
    if cur_buf == term_buf then
-     vim.cmd('q')
+     local splits = vim.api.nvim_tabpage_list_wins(0)
+     -- only quit if this terminal is a split window
+     if #splits > 1 then
+         vim.cmd('q')
+     end
    else
      vim.cmd('sb' .. term_buf)
      vim.cmd(':startinsert')

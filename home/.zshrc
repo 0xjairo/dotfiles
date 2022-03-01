@@ -43,6 +43,8 @@ fi
 # load fzf
 ##########
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f  /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
+[ -f /usr/share/doc/fzf/examples/completion.zsh ] && source /usr/share/doc/fzf/examples/completion.zsh
 
 # pass completion suggested by @d4ndo (#362)
 # to trigger call: `pass  **<TAB>`
@@ -97,5 +99,6 @@ export REPORTTIME=3
 
 [ -e "${HOME}/.zshrc_local" ] && source "${HOME}/.zshrc_local"
 
-
-source /home/jairo/.config/broot/launcher/bash/br
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
+#export PYENV_VIRTUALENV_DISABLE_PROMPT=1

@@ -71,12 +71,15 @@ require('packer').startup(function(use)
     use 'hrsh7th/cmp-path'
 
     -- colorscheme
-    use 'mhartington/oceanic-next'
     use 'bluz71/vim-moonfly-colors'
 
     -- git
     use 'tpope/vim-fugitive'
+    use 'tpope/vim-surround'
     use 'sindrets/diffview.nvim'
+
+    use 'qpkorr/vim-bufkill' -- keep window splits on buffer close (:BD)
+    use 'simrat39/symbols-outline.nvim' -- symbols outline :SymbolsOutline
   end
 )
 
@@ -88,11 +91,17 @@ require'nvim-tree'.setup {
     }
 }
 
+vim.g.symbols_outline = {
+  auto_preview = false,
+  symbol_blacklist = { "Variable" },
+}
 
+-- vim.lsp.set_log_level("debug")
 
 -- from https://github.com/neovim/nvim-lspconfig#Keybindings-and-completion
 local lspconfig = require('lspconfig')
 
+-- Rust HDL (vhdl_ls) is a VHDL language server (LSP)
 -- if not lspconfig.rust_hdl then
 --   require'lspconfig/configs'.rust_hdl = {
 --     default_config = {
@@ -145,7 +154,21 @@ end
 --local servers = { "clangd", "pylsp", "rust_hdl", "rust_analyzer"}
 local servers = { "clangd", "pylsp", "rust_analyzer", "tsserver"}
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup { on_attach = on_attach }
+  if lsp == "pylsp" then
+    lspconfig[lsp].setup({
+      settings = {
+        pylsp = {
+          plugins = {
+            pylint = { enabled = false },
+            flake8 = { maxLineLength = 160 },
+          }
+        }
+      },
+      on_attach = on_attach
+    })
+  else
+    lspconfig[lsp].setup { on_attach = on_attach }
+  end
 end
 
 -- tree-sitter
@@ -160,7 +183,36 @@ require'nvim-treesitter.configs'.setup {
 
 -- gitsigns
 require('gitsigns').setup({
-    current_line_blame = true
+  current_line_blame = true,
+  on_attach = function(bufnr)
+    local function map(mode, lhs, rhs, opts)
+        opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
+        vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
+    end
+
+    -- Navigation
+    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+
+    -- Actions
+    map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+    map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+    map('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+    map('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+    map('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
+    map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
+    map('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
+    map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
+    map('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+    map('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
+    map('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
+    map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+    map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
+
+    -- Text object
+    map('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+    map('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+  end
 })
 
 -- status line
@@ -182,6 +234,12 @@ require('lualine').setup({
 -- completion
 local cmp = require'cmp'
 cmp.setup {
+  -- REQUIRED - you must specify a snippet engine
+  snippet = {
+    expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+    end
+  },
   mapping = {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -199,15 +257,24 @@ cmp.setup {
   }
 }
 
--- highlight on yank
-vim.cmd([[au TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=150, on_visual=true}]])
+-- autocmds
+vim.api.nvim_command('augroup my_autocmds')
+vim.api.nvim_command('autocmd!')
+vim.api.nvim_command('au BufNewFile,BufRead *.cmd set filetype=asm')
+vim.api.nvim_command('au BufNewFile,BufRead *.cla set filetype=c')
+vim.api.nvim_command('au BufNewFile,BufRead SConstruct,SConscriptst filetype=python')
+vim.api.nvim_command('au BufNewFile,BufRead *.xacro set filetype=xl')
+vim.api.nvim_command('au FileType javascript set shiftwidth=2')
+vim.api.nvim_command('au FileType javascriptreact set shiftwidh=2')
+vim.api.nvim_command('au FileType lua set shiftwidth=2')
+vim.api.nvim_command('au TermOpen * setlocal nonumber norelatienub')
+vim.api.nvim_command('augroup END')
 
--- set filetype based on filename/extension
-vim.cmd([[au BufNewFile,BufRead *.cmd set filetype=asm]])
-vim.cmd([[au BufNewFile,BufRead *.cla set filetype=c]])
-vim.cmd([[au BufNewFile,BufRead SConstruct,SConscript set filetype=python]])
-vim.cmd([[au BufNewFile,BufRead *.xacro set filetype=xml]])
-vim.cmd([[au FocusLost * :wa " save all files on focus out]])
+-- highlight on yank
+vim.api.nvim_command('augroup yank_highlight')
+vim.api.nvim_command('autocmd!')
+vim.api.nvim_command([[au TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=150, on_visual=true}]])
+vim.api.nvim_command('augroup END')
 
 local function map(mode, lhs, rhs, opts)
   local options = {noremap = true}
@@ -231,19 +298,19 @@ end
 
 map('n', ';', ':Telescope buffers<cr>')
 map('n', '<C-p>', ':Telescope find_files<cr>')
-map('n', '<leader>fg', ':Telescope live_grep<cr>')
 map('n', '<leader>fh', ':Telescope help_tags<cr>')
 map('n', '<leader>fl', ':Telescope git_branches<CR>')
 map('n', '<leader>fc', ':Telescope git_commits<CR>')
 map('n', '<leader>fs', ':Telescope lsp_document_symbols<CR>')
 map('n', '<leader>rg', ':Telescope grep_string<CR>')
+map('n', '<leader>gg', ':Telescope live_grep<cr>')
 
 -- previous buffer
 map('n', '<Leader><Tab>', ':b#<CR>')
 -- toggle cursorline
-map('n', '<Leader>c', ':set cursorline!<CR>')
+map('n', '<Leader>c', ':set cursorline!<CR>:set cursorcolumn!<CR>')
 -- delete buffer without closing window
-map('n', '<Leader>d', ':b# <bar> :bd#<CR>')
+map('n', '<Leader>d', ':BD<CR>')
 -- toggle hightlight search matches
 map('n', '<Leader>l', ':set hlsearch!<CR>')
 -- cd to directory containing file
@@ -258,6 +325,8 @@ map('n', '<Leader>t', ':%s/\\s\\+$//e<CR>')
 map('n', '<Leader>r', ':set wrap!<CR>')
 -- nvim-tree
 map('n', '<C-n>', ':NvimTreeToggle<CR>')
+-- symbols_outline
+map('n', '<C-m>', ':SymbolsOutline<CR>')
 
 -- navigate windows with hjkl
 -- in terminal mode

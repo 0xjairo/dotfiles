@@ -265,9 +265,9 @@ vim.api.nvim_command('au BufNewFile,BufRead *.cla set filetype=c')
 vim.api.nvim_command('au BufNewFile,BufRead SConstruct,SConscriptst filetype=python')
 vim.api.nvim_command('au BufNewFile,BufRead *.xacro set filetype=xl')
 vim.api.nvim_command('au FileType javascript set shiftwidth=2')
-vim.api.nvim_command('au FileType javascriptreact set shiftwidh=2')
+vim.api.nvim_command('au FileType javascriptreact set shiftwidth=2')
 vim.api.nvim_command('au FileType lua set shiftwidth=2')
-vim.api.nvim_command('au TermOpen * setlocal nonumber norelatienub')
+vim.api.nvim_command('au TermOpen * setlocal nonumber norelativenumber')
 vim.api.nvim_command('augroup END')
 
 -- highlight on yank
@@ -391,4 +391,18 @@ end
 map('n', '<a-`>', ':lua toggle_terminal()<CR>')
 map('i', '<a-`>', '<ESC>:lua toggle_terminal()<CR>')
 map('t', '<a-`>', '<c-\\><c-n>:lua toggle_terminal()<CR>')
+
+_G.clear_terminal_scrollback = function()
+    vim.cmd('startinsert')
+    vim.cmd([[call chansend(b:terminal_job_id, "\<C-l>")]])
+    vim.cmd('stopinsert')
+    vim.cmd('set scrollback=1')
+    vim.cmd('sleep 250m')
+    vim.cmd('set scrollback=10000')
+    vim.cmd('echo "Done"')
+    vim.cmd('startinsert')
+end
+
+--map('t', '<c-k>','<c-\\><c-n>:set scrollback=1 | sleep 100m | set scrollback=10000 | echo "Done"<CR>')
+map('t', '<c-l>','<c-\\><c-n>:lua clear_terminal_scrollback()<CR>')
 

@@ -1,21 +1,28 @@
+add_newline = false
+
+# format = """
+# $username\
+# $hostname\
+# $shlvl\
+# $directory\
+# $git_branch\
+# $git_commit\
+# $git_state\
+# $git_status\
+# $hg_branch\
+# $memory_usage\
+# $cmd_duration\
+# $line_break\
+# $jobs\
+# $battery\
+# $time\
+# $status\
+# $character"""
+
 format = """
-$username\
-$hostname\
-$shlvl\
-$directory\
-$git_branch\
-$git_commit\
-$git_state\
-$git_status\
-$hg_branch\
-$memory_usage\
-$cmd_duration\
-$line_break\
-$jobs\
-$battery\
-$time\
-$status\
-$character"""
+[┌───────────────────>](bold green)
+[│](bold green)$username$hostname$directory$git_branch$git_commit$git_state$git_status$hg_branch$cmd_duration$jobs
+[└─>](bold green)$status """
 
 [time]
 disabled = false
@@ -37,3 +44,7 @@ style = "bold fg:242"
 [username]
 format = "[$user@]($style)"
 style_user = "bold fg:242"
+
+[status]
+disabled = false
+

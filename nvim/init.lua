@@ -173,7 +173,7 @@ end
 
 -- tree-sitter
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = "all", -- one of "all" or a list of languages
   ignore_install = { "php", "tlaplus" }, -- List of parsers to ignore installing
   highlight = {
     enable = true,              -- false will disable the whole extension
@@ -218,8 +218,9 @@ require('gitsigns').setup({
 -- status line
 require('lualine').setup({
   options = {
-    component_separators = {'', ''},
-    --section_separators = {'', ''},
+    theme = 'wombat',
+    component_separators = { left ='', right=''},
+    section_separators = { left = '', right = ''},
   },
   sections = {
     lualine_a = { 'mode' },
@@ -229,6 +230,12 @@ require('lualine').setup({
     lualine_y = { 'progress' },
     lualine_z = { 'location' }
   },
+  tabline = {
+  lualine_a = {'buffers'},
+  lualine_x = {},
+  lualine_y = {},
+  lualine_z = {'tabs'}
+  }
 })
 
 -- completion
@@ -296,6 +303,15 @@ if vim.fn.has('win32') == 1 then
     opt.shellredir='| Out-File -Encoding UTF8'
 end
 
+local actions = require 'telescope.actions'
+require('telescope').setup{
+  defaults = {
+    mappings = {
+      n = { ["x"] = actions.delete_buffer },
+    },
+  },
+}
+
 map('n', ';', ':Telescope buffers<cr>')
 map('n', '<C-p>', ':Telescope find_files<cr>')
 map('n', '<leader>fh', ':Telescope help_tags<cr>')
@@ -305,8 +321,14 @@ map('n', '<leader>fs', ':Telescope lsp_document_symbols<CR>')
 map('n', '<leader>rg', ':Telescope grep_string<CR>')
 map('n', '<leader>gg', ':Telescope live_grep<cr>')
 
--- previous buffer
+-- toggle "previous" buffer
 map('n', '<Leader><Tab>', ':b#<CR>')
+-- next buffer
+map('n', '<Leader><Tab>', ':b#<CR>')
+-- next buffer
+map('n', '=', ':bnext<CR>')
+-- previous buffer
+map('n', '-', ':bprev<CR>')
 -- toggle cursorline
 map('n', '<Leader>c', ':set cursorline!<CR>:set cursorcolumn!<CR>')
 -- delete buffer without closing window

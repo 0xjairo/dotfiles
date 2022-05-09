@@ -44,6 +44,7 @@ opt.wildmode='longest,list,full' -- cmdline completion to complete as much as po
 opt.wildmenu=true
 opt.splitright = true
 opt.splitbelow = true
+opt.completeopt = 'menu,menuone,noselect'
 
 vim.cmd [[packadd packer.nvim]]
 require('packer').startup(function(use)
@@ -64,11 +65,13 @@ require('packer').startup(function(use)
     use 'nvim-lualine/lualine.nvim'
 
     -- completion
-    use 'hrsh7th/nvim-cmp'
-    use 'hrsh7th/vim-vsnip'
-    use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-path'
+    use 'hrsh7th/nvim-cmp'
+
+    use 'hrsh7th/cmp-vsnip'
+    use 'hrsh7th/vim-vsnip'
 
     -- colorscheme
     use 'bluz71/vim-moonfly-colors'
@@ -240,29 +243,61 @@ require('lualine').setup({
 
 -- completion
 local cmp = require'cmp'
-cmp.setup {
+cmp.setup({
   -- REQUIRED - you must specify a snippet engine
   snippet = {
     expand = function(args)
         vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
     end
   },
-  mapping = {
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    })
-  },
-  sources = {
-    { name = 'buffer' },
+  mapping = cmp.mapping.preset.insert({
+      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+  sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'path' }
+    { name = 'vsnip' }, -- For vsnip users.
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+cmp.setup.filetype('gitcommit', {
+  sources = cmp.config.sources({
+   { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
   }
-}
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
+
+  -- -- Setup lspconfig.
+  -- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+  -- require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
+  --   capabilities = capabilities
+  -- }
+
 
 -- autocmds
 vim.api.nvim_command('augroup my_autocmds')

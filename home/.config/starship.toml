@@ -3,7 +3,8 @@ add_newline = false
 format = """
 [┌───────────────────>](bold green)
 [│](bold green)$username$hostname$directory$git_branch$git_commit$git_state$git_status$cmd_duration$jobs
-[└─>](bold green)$status$python"""
+[└─>](bold green)$status$python """
+
 [git_branch]
 format = "[$branch]($style)"
 style = "bright-black"

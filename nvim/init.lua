@@ -58,6 +58,7 @@ require('packer').startup(function(use)
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
     }
+    use 'nvim-orgmode/orgmode'
     use 'nvim-telescope/telescope.nvim'
     -- status line
     use 'nvim-lua/plenary.nvim'
@@ -87,6 +88,14 @@ require('packer').startup(function(use)
 )
 
 vim.cmd 'colorscheme moonfly'
+
+local orgmode = require('orgmode')
+
+orgmode.setup_ts_grammar()
+orgmode.setup{
+  org_agenda_files = { '~/Documents/org-notes/*'},
+  org_default_notes_file = '~/Documents/org-notes/refile.org',
+}
 
 require'nvim-tree'.setup {
     filters = {
@@ -176,11 +185,12 @@ end
 
 -- tree-sitter
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all", -- one of "all" or a list of languages
+  ensure_installed = {'c', 'cpp', 'rust', 'org',},
   ignore_install = { "php", "tlaplus" }, -- List of parsers to ignore installing
   highlight = {
     enable = true,              -- false will disable the whole extension
-    disable = {}, --{ "c", "rust" },  -- list of language that will be disabled
+    disable = {}, --{'org', "c", "rust" },  -- list of language that will be disabled
+    additional_vim_regex_highlighting = { 'org' },
   },
 }
 
@@ -260,6 +270,7 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'vsnip' }, -- For vsnip users.
+    { name = 'orgmode' },
   }, {
     { name = 'buffer' },
   })
@@ -310,6 +321,7 @@ vim.api.nvim_command('au FileType javascript set shiftwidth=2')
 vim.api.nvim_command('au FileType javascriptreact set shiftwidth=2')
 vim.api.nvim_command('au FileType lua set shiftwidth=2')
 vim.api.nvim_command('au TermOpen * setlocal nonumber norelativenumber')
+vim.api.nvim_command('au FileType org setlocal nonumber norelativenumber wrap')
 vim.api.nvim_command('augroup END')
 
 -- highlight on yank

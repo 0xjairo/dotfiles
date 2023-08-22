@@ -76,6 +76,7 @@ require('packer').startup(function(use)
 
     -- colorscheme
     use 'bluz71/vim-moonfly-colors'
+    use 'mhartington/oceanic-next'
 
     -- git
     use 'tpope/vim-fugitive'
@@ -84,10 +85,16 @@ require('packer').startup(function(use)
 
     use 'qpkorr/vim-bufkill' -- keep window splits on buffer close (:BD)
     use 'simrat39/symbols-outline.nvim' -- symbols outline :SymbolsOutline
+
+    -- workspaces
+    use 'natecraddock/workspaces.nvim'
   end
 )
 
-vim.cmd 'colorscheme moonfly'
+require("workspaces").setup()
+
+--vim.cmd 'colorscheme moonfly'
+vim.cmd 'colorscheme OceanicNext'
 
 local orgmode = require('orgmode')
 
@@ -232,8 +239,8 @@ require('gitsigns').setup({
 require('lualine').setup({
   options = {
     theme = 'wombat',
-    component_separators = { left ='', right=''},
-    section_separators = { left = '', right = ''},
+    --component_separators = { left ='', right=''},
+    --section_separators = { left = '', right = ''},
   },
   sections = {
     lualine_a = { 'mode' },
@@ -268,11 +275,17 @@ cmp.setup({
       ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
   sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
+    -- { name = 'nvim_lsp' },
     { name = 'vsnip' }, -- For vsnip users.
-    { name = 'orgmode' },
   }, {
     { name = 'buffer' },
+  })
+})
+
+cmp.setup.filetype('org', {
+  sources = cmp.config.sources({
+    { name = 'orgmode' },
+    { name = 'vsnip' },
   })
 })
 

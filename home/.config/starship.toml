@@ -1,5 +1,16 @@
 add_newline = false
-format = """(bold green)$username$hostname$directory$git_branch$git_metrics$git_commit$git_state$git_status$cmd_duration$jobs """
+format = """\
+(bold green)\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_metrics\
+$git_commit\
+$git_state\
+$git_status\
+$cmd_duration\
+$jobs """
 
 [username]
 format = '[$user]($style)@'

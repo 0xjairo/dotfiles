@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 
 # check we're inside a git repo, else return error code
 git rev-parse --is-inside-work-tree || exit $?

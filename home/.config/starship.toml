@@ -40,5 +40,6 @@ disabled=false
 [custom.sw_ver]
 command = """ tail -n+2 "$INSTALL_SPACE_PATH/ref.txt" | head -n1 """
 when = ''' test -f "$INSTALL_SPACE_PATH/ref.txt" '''
+os = "linux"
 style = 'bold yellow'
 format = " [$output]($style) "

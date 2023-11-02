@@ -1,6 +1,9 @@
 add_newline = true
 format = """(bold green)$username$hostname$directory${custom.sw_ver}$git_branch$git_metrics$git_commit$git_state$git_status
-$shell$cmd_duration$jobs$character"""
+$os$status$shell$cmd_duration$jobs$character"""
+
+[os]
+disabled = false
 
 [username]
 format = '[$user]($style)@'
@@ -43,3 +46,8 @@ when = ''' test -f "$INSTALL_SPACE_PATH/ref.txt" '''
 os = "linux"
 style = 'bold yellow'
 format = " [$output]($style) "
+disabled = true
+
+[status]
+symbol = ''
+disabled = false

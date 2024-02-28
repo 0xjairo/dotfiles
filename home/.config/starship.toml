@@ -125,6 +125,6 @@ command = """ tail -n+2 "$INSTALL_SPACE_PATH/ref.txt" | head -n1 """
 when = ''' test -f "$INSTALL_SPACE_PATH/ref.txt" '''
 os = "linux"
 style = "bg:color_orange fg:color_fg0"
-format = '[󰐝 $output ]($style)'
+format = '[ 󰐝 $output ]($style)'
 disabled = false
 

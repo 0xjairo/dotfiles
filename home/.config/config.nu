@@ -863,3 +863,11 @@ $env.config = {
 
 $env.EDITOR = "nvim"
 
+use ~/.cache/starship/init.nu
+source $"($nu.default-config-dir)/nu_scripts/custom-completions/git/git-completions.nu"
+source $"($nu.default-config-dir)/nu_scripts/custom-completions/rg/rg-completions.nu"
+
+$env.STARSHIP_CONFIG = ($env.HOMEPATH | path join "dotfiles" "home" ".config" "starship.toml")
+mkdir ~/.cache/starship
+starship init nu | save -f ~/.cache/starship/init.nu
+

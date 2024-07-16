@@ -23,6 +23,7 @@ $docker_context\
 $time\
 $cmd_duration\
 [ ](fg:color_bg1)\
+$python\
 $line_break$character"""
 
 palette = 'gruvbox_dark'
@@ -128,3 +129,5 @@ style = "bg:color_orange fg:color_fg0"
 format = '[ 󰐝 $output ]($style)'
 disabled = false
 
+[python]
+format = '[${symbol}${pyenv_prefix}(\($virtualenv\) )]($style)'

@@ -10,7 +10,7 @@ config.window_frame = {
 	font_size = 9.0,
 }
 config.window_decorations = "RESIZE"
-config.window_background_opacity = 0.92
+config.window_background_opacity = 0.95
 config.hide_tab_bar_if_only_one_tab = true
 config.command_palette_font_size = 9.0
 
@@ -63,6 +63,14 @@ config.keys = {
 	},
 	{ key = "UpArrow", mods = "SHIFT", action = wezterm.action.ScrollToPrompt(-1) },
 	{ key = "DownArrow", mods = "SHIFT", action = wezterm.action.ScrollToPrompt(1) },
+}
+
+config.mouse_bindings = {
+  {
+    event = { Down = { streak = 3, button = 'Left' } },
+    action = wezterm.action.SelectTextAtMouseCursor 'SemanticZone',
+    mods = 'NONE',
+  },
 }
 
 return config

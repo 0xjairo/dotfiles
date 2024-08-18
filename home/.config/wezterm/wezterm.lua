@@ -2,7 +2,9 @@
 local wezterm = require("wezterm")
 
 config = wezterm.config_builder()
-config.default_prog = { "pwsh.exe", "-NoLogo" }
+if string.find(wezterm.target_triple, "windows") then
+	config.default_prog = { "pwsh.exe", "-NoLogo" }
+end
 
 config.color_scheme = "Catppuccin Macchiato"
 config.window_frame = {

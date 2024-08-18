@@ -1,23 +1,32 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
-
-config = wezterm.config_builder()
+local config = wezterm.config_builder()
+local font, font_size
 if string.find(wezterm.target_triple, "windows") then
+	font = "FiraCode NF"
+	font_size = 9.0
+
+	-- windows specific options
 	config.default_prog = { "pwsh.exe", "-NoLogo" }
+	config.window_decorations = "RESIZE"
+
+elseif string.find(wezterm.target_triple, "linux") then
+	font = "FiraCode Nerd Font"
+	font_size = 12.0
 end
 
-config.color_scheme = "Catppuccin Macchiato"
 config.window_frame = {
-	font = wezterm.font("FiraCode NF"),
-	font_size = 9.0,
+	font = wezterm.font(font),
+	font_size = font_size,
 }
-config.window_decorations = "RESIZE"
+
+config.font = wezterm.font(font)
+config.font_size = font_size
+
+config.color_scheme = "Catppuccin Macchiato"
 config.window_background_opacity = 0.95
 config.hide_tab_bar_if_only_one_tab = true
 config.command_palette_font_size = 9.0
-
-config.font = wezterm.font("FiraCode NF")
-config.font_size = 9
 
 config.initial_cols = 120
 config.initial_rows = 30

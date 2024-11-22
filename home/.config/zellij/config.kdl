@@ -133,17 +133,19 @@ keybinds clear-defaults=true {
         }
     }
     normal {
-        bind "c" { NewTab; SwitchToMode "locked"; }
         bind "h" { MoveFocusOrTab "left"; SwitchToMode "locked"; }
         bind "j" { MoveFocus "down"; SwitchToMode "locked"; }
         bind "k" { MoveFocus "up"; SwitchToMode "locked"; }
         bind "l" { MoveFocusOrTab "right"; SwitchToMode "locked"; }
+        // make it feel like tmux
+        bind "c" { NewTab; SwitchToMode "locked"; }
         bind "n" { GoToNextTab; SwitchToMode "locked"; }
         bind "p" { GoToPreviousTab; SwitchToMode "locked"; }
-        bind "P" { SwitchToMode "pane"; }
         bind "z" { ToggleFocusFullscreen; SwitchToMode "locked";  }
         bind "|" { NewPane "right"; SwitchToMode "locked"; }
         bind "-" { NewPane "down"; SwitchToMode "locked"; }
+        // update zellij default to prevent collission with p
+        bind "P" { SwitchToMode "pane"; }
     }
     shared_among "normal" "locked" {
         bind "Alt left" { MoveFocusOrTab "left"; }

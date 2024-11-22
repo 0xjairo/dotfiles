@@ -139,6 +139,8 @@ keybinds clear-defaults=true {
         bind "k" { MoveFocus "up"; SwitchToMode "locked"; }
         bind "l" { MoveFocusOrTab "right"; SwitchToMode "locked"; }
         bind "n" { GoToNextTab; SwitchToMode "locked"; }
+        bind "p" { GoToPreviousTab; SwitchToMode "locked"; }
+        bind "P" { SwitchToMode "pane"; }
         bind "z" { ToggleFocusFullscreen; SwitchToMode "locked";  }
         bind "|" { NewPane "right"; SwitchToMode "locked"; }
         bind "-" { NewPane "down"; SwitchToMode "locked"; }
@@ -184,7 +186,7 @@ keybinds clear-defaults=true {
     shared_except "locked" "tab" "scroll" "entersearch" "renametab" "renamepane" {
         bind "s" { SwitchToMode "scroll"; }
     }
-    shared_among "normal" "resize" "tab" "scroll" "prompt" "tmux" {
+    shared_among "resize" "tab" "scroll" "prompt" "tmux" {
         bind "p" { SwitchToMode "pane"; }
     }
     shared_except "locked" "resize" "pane" "tab" "entersearch" "renametab" "renamepane" {

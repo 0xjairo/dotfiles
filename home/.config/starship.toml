@@ -1,51 +1,43 @@
+# Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
 
-format = """[](color_orange)\
-$os\
+# format = '$os $all'
+format="""
+$os \
 $username\
 $hostname\
 ${custom.sw_version}\
-[](bg:color_yellow fg:color_orange)\
 $directory\
-[](fg:color_yellow bg:color_aqua)\
 $git_branch\
 $git_metrics\
 $git_commit\
 $git_state\
 $git_status\
-[](fg:color_aqua bg:color_blue)\
-[](fg:color_blue bg:color_bg3)\
 $docker_context\
-[](fg:color_bg3 bg:color_bg1)\
-$time\
 $cmd_duration\
-[ ](fg:color_bg1)\
 $python\
-$line_break$character"""
+$line_break\
+$time\
+$character"""
 
-palette = 'gruvbox_dark'
+[git_metrics]
+# added_style = "bg:color_aqua fg:color_fg0"
+# deleted_style = "bg:color_aqua fg:color_red"
+# format = """[([+$added]($added_style) )([-$deleted]($deleted_style) )](bg:color_aqua)"""
+disabled = false
 
-[profiles]
-transient = """\
-[](color_yellow)$directory\
-[](fg:color_yellow bg:color_bg1)$time[ ](fg:color_bg1)$line_break$character """
+[git_branch]
+style = "bright white"
+format = '[$symbol$branch(:$remote_branch)]($style) '
 
-[palettes.gruvbox_dark]
-color_fg0 = '#fbf1c7'
-color_bg1 = '#3c3836'
-color_bg3 = '#665c54'
-color_blue = '#458588'
-color_aqua = '#689d6a'
-color_green = '#98971a'
-color_orange = '#d65d0e'
-color_purple = '#b16286'
-color_red = '#cc241d'
-color_yellow = '#d79921'
+[directory]
+truncation_length = 4
+style = "cyan"
 
 [os]
 disabled = false
-style = "bg:color_orange fg:color_fg0"
+style = "cyan"
 
 [os.symbols]
 Windows = "󰍲"
@@ -68,61 +60,17 @@ Debian = "󰣚"
 Redhat = "󱄛"
 RedHatEnterprise = "󱄛"
 
-[username]
-style_user = "bg:color_orange fg:color_fg0"
-style_root = "bg:color_orange fg:color_fg0"
-format = '[$user]($style)'
-
-[hostname]
-style = "bg:color_orange fg:color_fg0"
-format = '[@$hostname]($style)'
-
-[git_metrics]
-added_style = "bg:color_aqua fg:color_fg0"
-deleted_style = "bg:color_aqua fg:color_red"
-format = """[([+$added]($added_style) )([-$deleted]($deleted_style) )](bg:color_aqua)"""
-disabled = false
-
-[git_branch]
-symbol = ""
-style = "bg:color_aqua"
-format = '[[ $symbol $branch ](fg:color_fg0 bg:color_aqua)]($style)'
-
-[git_status]
-style = "bg:color_aqua"
-format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)'
-
-[directory]
-style = "fg:color_fg0 bg:color_yellow"
-format = "[ $path ]($style)"
-truncation_length = 3
-truncation_symbol = "…/"
-
-[git_state]
-style = "bg:color_aqua"
-format = '\([$state( $progress_current/$progress_total)]($style)\) '
-
-[cmd_duration]
-style = "bg:color_bg1"
-format = """[[ $duration ](fg:color_fg0 bg:color_bg1)]($style)"""
-
 [time]
 disabled = false
 time_format = "%R"
 style = "bg:color_bg1"
-format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
+format = '[[$time ](fg:color_fg0 bg:color_bg1)]($style)'
 
-[line_break]
-disabled = false
+[python]
+format = '[${pyenv_prefix}(\($virtualenv\) )]($style)'
 
-[character]
-disabled = false
-success_symbol = '[](bold fg:color_green)'
-error_symbol = '[](bold fg:color_red)'
-vimcmd_symbol = '[](bold fg:color_green)'
-vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
-vimcmd_replace_symbol = '[](bold fg:color_purple)'
-vimcmd_visual_symbol = '[](bold fg:color_yellow)'
+[cmd_duration]
+format = """[[$duration](fg:yellow)]($style)"""
 
 [custom.sw_version]
 command = """ tail -n+2 "$INSTALL_SPACE_PATH/ref.txt" | head -n1 """
@@ -130,7 +78,6 @@ when = ''' test -f "$INSTALL_SPACE_PATH/ref.txt" '''
 os = "linux"
 style = "bg:color_orange fg:color_fg0"
 format = '[ $output ]($style)'
-disabled = false
 
-[python]
-format = '[${symbol}${pyenv_prefix}(\($virtualenv\) )]($style)'
+[line_break]
+disabled = false

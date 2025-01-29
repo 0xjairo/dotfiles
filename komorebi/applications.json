@@ -118,6 +118,11 @@
         "kind": "Class",
         "id": "TFindSimilarObjectsForm",
         "matching_strategy": "Equals"
+      },
+      {
+        "kind": "Class",
+        "id": "TManageItemsForm_Standard",
+        "matching_strategy": "Equals"
       }
     ]
   },

@@ -35,6 +35,9 @@ if font ~= nil then
 	config.font_size = font_size
 end
 
+config.animation_fps = 60
+config.max_fps = 120
+
 config.color_scheme = "Catppuccin Macchiato"
 config.window_background_opacity = 0.95
 config.hide_tab_bar_if_only_one_tab = true

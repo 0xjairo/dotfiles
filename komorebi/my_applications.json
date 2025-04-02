@@ -1,0 +1,32 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/master/schema.asc.json",
+  "Altium": {
+    "ignore": [
+      {
+        "kind": "Class",
+        "id": "TChangeManagementForm",
+        "matching_strategy": "Equals"
+      },
+      {
+        "kind": "Class",
+        "id": "TDesignRuleCheckForm",
+        "matching_strategy": "Equals"
+      },
+      {
+        "kind": "Class",
+        "id": "TProjectPropertiesDialog",
+        "matching_strategy": "Equals"
+      },
+      {
+        "kind": "Class",
+        "id": "TFindSimilarObjectsForm",
+        "matching_strategy": "Equals"
+      },
+      {
+        "kind": "Class",
+        "id": "TManageItemsForm_Standard",
+        "matching_strategy": "Equals"
+      }
+    ]
+  }
+}

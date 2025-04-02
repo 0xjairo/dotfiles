@@ -1,6 +1,9 @@
 {
-  "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/v0.1.30/schema.json",
-  "app_specific_configuration_path": "$Env:USERPROFILE/dotfiles/komorebi/applications.json",
+  "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/v0.1.35/schema.json",
+  "app_specific_configuration_path": [
+    "$Env:USERPROFILE/dotfiles/komorebi/applications.json",
+    "$Env:USERPROFILE/dotfiles/komorebi/my_applications.json"
+  ],
   "animation": {
     "style": "Linear",
     "fps": 60,
@@ -75,6 +78,11 @@
           "initial_workspace_rules": [
             {
               "kind": "Exe",
+              "id": "Signal.exe",
+              "matching_strategy": "Equals"
+            },
+            {
+              "kind": "Exe",
               "id": "slack.exe",
               "matching_strategy": "Equals"
             },
@@ -87,7 +95,14 @@
         },
         {
           "name": "IV",
-          "layout": "VerticalStack"
+          "layout": "VerticalStack",
+          "initial_workspace_rules": [
+            {
+              "kind": "Exe",
+              "id": "olk.exe",
+              "matching_strategy": "Equals"
+            }
+          ]
         },
         {
           "name": "V",

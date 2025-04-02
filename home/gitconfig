@@ -11,7 +11,8 @@
 	autocrlf = input
 [alias]
     l = !~/dotfiles/bin/git-l
-    lg =  log --graph --decorate --pretty=format:'%C(yellow)%h %C(green)%aI %C(blue)%an %C(yellow)%d%C(reset) %C(white)%s'
+    lg =  log --decorate --pretty=format:'%C(yellow)%h %C(green)%aI %C(blue)%an %C(yellow)%d%C(reset) %C(white)%s'
+	  lgg = lg --graph
 
     st = status -sb
 

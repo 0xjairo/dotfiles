@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/master/schema.asc.json",
   "Altium": {
-    "ignore": [
+    "floating": [
       {
         "kind": "Class",
         "id": "TChangeManagementForm",
@@ -25,6 +25,53 @@
       {
         "kind": "Class",
         "id": "TManageItemsForm_Standard",
+        "matching_strategy": "Equals"
+      },
+      {
+        "kind": "Class",
+        "id": "^T.*ProjectVariantForm$",
+        "matching_strategy": "Regex"
+      },
+      {
+        "kind": "Class",
+        "id": "TLibraryUpdateForm",
+        "matching_strategy": "Regex"
+      },
+      {
+        "kind": "Class",
+        "id": "TForm_DesignRules",
+        "matching_strategy": "Regex"
+      },
+      {
+        "kind": "Class",
+        "id": "TProjectReleaseConfirmForm",
+        "matching_strategy": "Regex"
+      }
+    ]
+  },
+  "Printer": {
+    "ignore": [
+      {
+        "kind": "Exe",
+        "id": "LM___SCE.EXE",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "Photos": {
+    "floating": [
+      {
+        "kind": "Exe",
+        "id": "Photos.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "Qalculate": {
+    "ignore": [
+      {
+        "kind": "Exe",
+        "id": "qalculate.exe",
         "matching_strategy": "Equals"
       }
     ]
